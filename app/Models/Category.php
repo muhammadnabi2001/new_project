@@ -9,4 +9,8 @@ class Category extends Model
     protected $fillable=[
         'name'
     ];
+    public function topshiriqlar()
+    {
+        return $this->hasMany(Topshiriq::class,'category_id');
+    }
 }

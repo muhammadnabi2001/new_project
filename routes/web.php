@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\TopshiriqController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,3 +43,10 @@ require __DIR__.'/auth.php';
     Route::get('regionedit{region}',[RegionController::class,'regionedit'])->name('regionedit');
     Route::post('regionupdate{region}',[RegionController::class,'regionupdate'])->name('regionupdate');
     Route::get('regiondelete{region}',[RegionController::class,'regiondelete'])->name('regiondelete');
+
+    Route::get('topshiriqlar',[TopshiriqController::class,'topshiriqlar'])->name('topshiriqlar');
+    Route::get('topshiriqcreate',[TopshiriqController::class,'topshiriqcreate'])->name('topshiriqcreate');
+    Route::post('topshiriqstore',[TopshiriqController::class,'topshiriqstore'])->name('topshiriqstore');
+    Route::get('topshiriqedit{topshiriq}',[TopshiriqController::class,'topshiriqedit'])->name('topshiriqedit');
+    Route::post('topshiriqupdate{topshiriq}',[TopshiriqController::class,'topshiriqupdate'])->name('topshiriqupdate');
+    Route::get('topshiriqdelete{topshiriq}',[TopshiriqController::class,'topshiriqdelete'])->name('topshiriqdelete');

@@ -143,6 +143,14 @@
                             </a>
                         </li>              
                         <li class="nav-item">
+                            <a href="/topshiriqlar" class="nav-link">
+                                <i class="nav-icon fas fa-bars"></i>
+                                <p>
+                                    Topshiriqlar
+                                </p>
+                            </a>
+                        </li>              
+                        <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="nav-icon fas fa-bars"></i>
                                 <p>Logout</p>
