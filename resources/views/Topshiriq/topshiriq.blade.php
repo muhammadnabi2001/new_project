@@ -7,11 +7,23 @@
     <div class="content-header">
         <div class="container-fluid">
             @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+
+            <script>
+                setTimeout(function() {
+                    var alert = document.getElementById('successAlert');
+                    if (alert) {
+                        var bootstrapAlert = new bootstrap.Alert(alert);
+                        bootstrapAlert.close();
+                    }
+                }, 3000);
+            </script>
             @endif
+
+
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Topshiriqlar</h1>
@@ -55,28 +67,31 @@
                                     <td>{{ $topshiriq->muddat }}</td>
                                     <td>
                                         @foreach($topshiriq->regions as $region)
-                                            {{$region->name}}
+                                        {{$region->name}}
                                         @endforeach
                                     </td>
                                     <td>{{ $topshiriq->category->name }}</td>
                                     <td>
-                                        <a href="{{ asset('files/' . $topshiriq->file) }}" 
-                                           style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff;" 
-                                           target="_blank">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <a href="{{ asset('files/' . $topshiriq->file) }}"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff;"
+                                            target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path d="M12 5v14M19 12l-7 7-7-7" />
                                             </svg>
                                             <span style="font-size: 12px; margin-top: 5px;">Yuklash</span>
                                         </a>
                                     </td>
-                                    
-                                    
-                                    
+
+
+
                                     <td>
-                                        <a href="{{route('topshiriqedit',$topshiriq->id)}}" class="btn btn-success">Update</a>
+                                        <a href="{{route('topshiriqedit',$topshiriq->id)}}"
+                                            class="btn btn-success">Update</a>
                                     </td>
                                     <td>
-                                        <a href="{{route('topshiriqdelete',$topshiriq->id)}}" class="btn btn-danger">Delete</a>
+                                        <a href="{{route('topshiriqdelete',$topshiriq->id)}}"
+                                            class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach

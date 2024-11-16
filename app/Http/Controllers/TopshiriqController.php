@@ -22,7 +22,6 @@ class TopshiriqController extends Controller
     }
     public function topshiriqstore(Request $request)
     {
-        // Validatsiya
         $topshiriqData = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'ijrochi' => 'required|max:255',
@@ -34,7 +33,6 @@ class TopshiriqController extends Controller
             'regions.*' => 'exists:regions,id', 
         ]);
 
-        // Faylni yuklash
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();

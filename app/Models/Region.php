@@ -16,6 +16,6 @@ class Region extends Model
     }
     public function topshiriqlar()
     {
-        return $this->belongsToMany(Topshiriq::class,'region_topshiriqs','region_id','topshiriq_id');
+        return $this->belongsToMany(Topshiriq::class,'region_topshiriqs');
     }
 }
