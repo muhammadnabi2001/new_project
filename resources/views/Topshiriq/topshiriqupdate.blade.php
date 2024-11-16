@@ -59,6 +59,18 @@
                                 <input type="datetime-local" class="form-control" name="muddat"
                                     value="{{$topshiriq->muddat}}">
                             </div>
+                            <div class="select2-purple mb-3">
+                                <label>Hududlar</label>
+                                <select class="select2 form-control" multiple="multiple" data-placeholder="Hududni tanlang" data-dropdown-css-class="select2-purple" style="width: 100%;" name="regions[]">
+                                    @foreach($regions as $region)
+                                        <option value="{{ $region->id }}" 
+                                                @if(in_array($region->id, $topshiriq->regions->pluck('id')->toArray())) selected @endif>
+                                            {{ $region->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
                             <button type="submit" class="btn btn-success">Update</button>
                         </form>
                     </div>

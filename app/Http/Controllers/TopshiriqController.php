@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Region;
 use App\Models\Topshiriq;
 use Illuminate\Http\Request;
 
@@ -16,20 +17,24 @@ class TopshiriqController extends Controller
     public function topshiriqcreate()
     {
         $categories = Category::all();
-        return view('Topshiriq.topshiriqcreate', ['categories' => $categories]);
+        $regions = Region::all();
+        return view('Topshiriq.topshiriqcreate', ['categories' => $categories, 'regions' => $regions]);
     }
     public function topshiriqstore(Request $request)
     {
-        //dd($request->all());
-        $topshiriq = $request->validate([
+        // Validatsiya
+        $topshiriqData = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'ijrochi' => 'required|max:255',
             'title' => 'required|max:255',
             'description' => 'required',
             'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
-            'muddat' => 'required|date'
+            'muddat' => 'required|date',
+            'regions' => 'required|array', 
+            'regions.*' => 'exists:regions,id', 
         ]);
-        //dd($request->all());
+
+        // Faylni yuklash
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
@@ -37,17 +42,21 @@ class TopshiriqController extends Controller
 
             $file->move('files/', $filename);
 
-            $topshiriq['file'] = $filename;
+            $topshiriqData['file'] = $filename;
         }
 
+        $topshiriq = Topshiriq::create($topshiriqData);
 
-        Topshiriq::create($topshiriq);
+        $topshiriq->regions()->sync($request->regions);
+
         return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqiyatli qo'shildi");
     }
+
     public function topshiriqedit(Topshiriq $topshiriq)
     {
         $categories = Category::all();
-        return view('Topshiriq.topshiriqupdate', ['topshiriq' => $topshiriq, 'categories' => $categories]);
+        $regions = Region::all();
+        return view('Topshiriq.topshiriqupdate', ['topshiriq' => $topshiriq, 'categories' => $categories,'regions'=>$regions]);
     }
     public function topshiriqupdate(Request $request, Topshiriq $topshiriq)
     {
@@ -57,7 +66,9 @@ class TopshiriqController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
-            'muddat' => 'required|date'
+            'muddat' => 'required|date',
+            'regions' => 'required|array',
+            'regions.*' => 'exists:regions,id',
         ]);
 
         $topshiriq->category_id = $request->category_id;
@@ -75,7 +86,9 @@ class TopshiriqController extends Controller
 
             $topshiriq->file = 'files/' . $filename;
         }
+
         $topshiriq->save();
+        $topshiriq->regions()->sync($request->regions);
 
         return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqiyatli yangilandi");
     }
@@ -83,6 +96,6 @@ class TopshiriqController extends Controller
     {
         //dd($topshiriq);
         $topshiriq->delete();
-        return redirect('topshiriqlar')->with('success',"Ma'lumot muvvafaqatiyatli o'chirildi");
+        return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqatiyatli o'chirildi");
     }
 }
