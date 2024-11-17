@@ -6,13 +6,29 @@ use App\Models\Category;
 use App\Models\Region;
 use App\Models\Topshiriq;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class TopshiriqController extends Controller
 {
     public function topshiriqlar()
     {
-        $topshiriqlar = Topshiriq::orderBy('id', 'desc')->get();
-        return view('Topshiriq.topshiriq', ['topshiriqlar' => $topshiriqlar]);
+        $topshiriqlar = Topshiriq::orderBy('id', 'desc')->paginate(5);
+        $barchasi = Topshiriq::all()->count();
+        $twodays = Topshiriq::whereHas('regions', function ($query) {
+            $query->where('status', 'topshirildi');
+        })->whereDate('muddat', now()->addDays(2))
+            ->get();
+        $tomorrow = Topshiriq::whereHas('regions', function ($query) {
+            $query->where('status', 'topshirildi');
+        })->whereDate('muddat', now()->addDays(1))
+            ->get();
+        $today = Topshiriq::whereHas('regions', function ($query) {
+            $query->where('status', 'topshirildi');
+        })->whereDate('muddat', now()->addDays(0))
+            ->get();
+
+        return view('Topshiriq.topshiriq', ['topshiriqlar' => $topshiriqlar, 'barchasi' => $barchasi, 'twodays' => $twodays, 'tomorrow' => $tomorrow, 'today' => $today]);
     }
     public function topshiriqcreate()
     {
@@ -29,8 +45,8 @@ class TopshiriqController extends Controller
             'description' => 'required',
             'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
             'muddat' => 'required|date',
-            'regions' => 'required|array', 
-            'regions.*' => 'exists:regions,id', 
+            'regions' => 'required|array',
+            'regions.*' => 'exists:regions,id',
         ]);
 
         if ($request->hasFile('file')) {
@@ -54,7 +70,7 @@ class TopshiriqController extends Controller
     {
         $categories = Category::all();
         $regions = Region::all();
-        return view('Topshiriq.topshiriqupdate', ['topshiriq' => $topshiriq, 'categories' => $categories,'regions'=>$regions]);
+        return view('Topshiriq.topshiriqupdate', ['topshiriq' => $topshiriq, 'categories' => $categories, 'regions' => $regions]);
     }
     public function topshiriqupdate(Request $request, Topshiriq $topshiriq)
     {
@@ -82,8 +98,9 @@ class TopshiriqController extends Controller
 
             $file->move(public_path('files'), $filename);
 
-            $topshiriq->file = 'files/' . $filename;
+            $topshiriq->file = $filename;
         }
+        
 
         $topshiriq->save();
         $topshiriq->regions()->sync($request->regions);
@@ -95,5 +112,27 @@ class TopshiriqController extends Controller
         //dd($topshiriq);
         $topshiriq->delete();
         return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqatiyatli o'chirildi");
+    }
+    public function calculate(int $day)
+    {
+        //dd($day);
+        $barchasi = Topshiriq::all()->count();
+        $twodays = Topshiriq::whereHas('regions', function ($query) {
+            $query->where('status', 'topshirildi');
+        })->whereDate('muddat', now()->addDays(2))
+            ->get();
+        $tomorrow = Topshiriq::whereHas('regions', function ($query) {
+            $query->where('status', 'topshirildi');
+        })->whereDate('muddat', now()->addDays(1))
+            ->get();
+        $today = Topshiriq::whereHas('regions', function ($query) {
+            $query->where('status', 'topshirildi');
+        })->whereDate('muddat', now())
+            ->get();
+        $topshiriqlar = Topshiriq::whereHas('regions', function ($query) {
+            $query->where('status', 'topshirildi');
+        })->whereDate('muddat', now()->addDays($day))
+            ->paginate(5);
+        return view('Topshiriq.topshiriq', ['topshiriqlar' => $topshiriqlar, 'barchasi' => $barchasi, 'twodays' => $twodays, 'tomorrow' => $tomorrow, 'today' => $today]);
     }
 }

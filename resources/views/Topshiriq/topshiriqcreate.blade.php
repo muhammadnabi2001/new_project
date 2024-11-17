@@ -1,6 +1,6 @@
 @extends('Layout.main')
 
-@section('title', 'Ingredients')
+@section('title', 'Createtopshiriqs')
 
 @section('content')
 <div class="content-wrapper">
@@ -40,7 +40,7 @@
                                     placeholder="Input text"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="category" class="form-label">Select User</label>
+                                <label for="category" class="form-label">Select Category</label>
                                 <select name="category_id" id="category" class="form-control">
                                     <option value="" disabled selected>Select categories</option>
                                     @foreach($categories as $category)

@@ -20,6 +20,6 @@ class Topshiriq extends Model
     }
     public function regions()
     {
-        return $this->belongsToMany(Region::class,'region_topshiriqs');
+        return $this->belongsToMany(Region::class,'region_topshiriqs')->withPivot('status');
     }
 }

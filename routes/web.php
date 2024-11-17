@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\TopshiriqController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\Check;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,9 +45,10 @@ require __DIR__.'/auth.php';
     Route::post('regionupdate{region}',[RegionController::class,'regionupdate'])->name('regionupdate');
     Route::get('regiondelete{region}',[RegionController::class,'regiondelete'])->name('regiondelete');
 
-    Route::get('topshiriqlar',[TopshiriqController::class,'topshiriqlar'])->name('topshiriqlar');
-    Route::get('topshiriqcreate',[TopshiriqController::class,'topshiriqcreate'])->name('topshiriqcreate');
-    Route::post('topshiriqstore',[TopshiriqController::class,'topshiriqstore'])->name('topshiriqstore');
-    Route::get('topshiriqedit{topshiriq}',[TopshiriqController::class,'topshiriqedit'])->name('topshiriqedit');
-    Route::post('topshiriqupdate{topshiriq}',[TopshiriqController::class,'topshiriqupdate'])->name('topshiriqupdate');
-    Route::get('topshiriqdelete{topshiriq}',[TopshiriqController::class,'topshiriqdelete'])->name('topshiriqdelete');
+    Route::get('topshiriqlar',[TopshiriqController::class,'topshiriqlar'])->name('topshiriqlar')->middleware(Check::class.':admin');
+    Route::get('topshiriqcreate',[TopshiriqController::class,'topshiriqcreate'])->name('topshiriqcreate')->middleware(Check::class.':admin');
+    Route::post('topshiriqstore',[TopshiriqController::class,'topshiriqstore'])->name('topshiriqstore')->middleware(Check::class.':admin');
+    Route::get('topshiriqedit{topshiriq}',[TopshiriqController::class,'topshiriqedit'])->name('topshiriqedit')->middleware(Check::class.':admin');
+    Route::post('topshiriqupdate{topshiriq}',[TopshiriqController::class,'topshiriqupdate'])->name('topshiriqupdate')->middleware(Check::class.':admin');
+    Route::get('topshiriqdelete{topshiriq}',[TopshiriqController::class,'topshiriqdelete'])->name('topshiriqdelete')->middleware(Check::class.':admin');
+    Route::get('calculate/{day}',[TopshiriqController::class,'calculate'])->name('calculate')->middleware(Check::class.':admin');

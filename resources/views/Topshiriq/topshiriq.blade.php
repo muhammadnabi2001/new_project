@@ -5,6 +5,68 @@
 @section('content')
 <div class="content-wrapper">
     <div class="content-header">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>Barchasi - {{$barchasi}} ta</h3>
+
+                        <p>Hammasini ko'rish</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="/topshiriqlar" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>2 kun - {{$twodays->count()}} ta</sup></h3>
+
+                        <p>Hammasini ko'rish</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="{{route('calculate',2)}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>Ertaga - {{$tomorrow->count()}} ta </h3>
+
+                        <p>Hammasini ko'rish</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="{{route('calculate',1)}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>Bugun - {{$today->count()}} ta</h3>
+
+                        <p>Hammasini ko'rish</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="{{route('calculate',0)}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
         <div class="container-fluid">
             @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
@@ -46,13 +108,15 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Ijrochi</th>
+                                    <th>Hudud</th>
+                                    <th>Ijrochisi</th>
                                     <th>Title</th>
                                     <th>Description</th>
-                                    <th>muddati</th>
-                                    <th>Hudud</th>
-                                    <th>category</th>
                                     <th>Fayl</th>
+                                    <th>Yuborilgan vaqti</th>
+                                    <th>muddati</th>
+                                    <th>category</th>
+                                    <th>statusi</th>
                                     <th>Update</th>
                                     <th>Delete</th>
                                 </tr>
@@ -61,17 +125,17 @@
                                 @foreach($topshiriqlar as $topshiriq)
                                 <tr>
                                     <td>{{ $topshiriq->id }}</td>
+                                    <td>
+                                        @foreach($topshiriq->regions as $region)
+                                        {{$region->name}} <br>
+                                        @endforeach
+                                    </td>
                                     <td>{{ $topshiriq->ijrochi }}</td>
                                     <td>{{ $topshiriq->title }}</td>
                                     <td>{{ $topshiriq->description }}</td>
-                                    <td>{{ $topshiriq->muddat }}</td>
                                     <td>
-                                        @foreach($topshiriq->regions as $region)
-                                        {{$region->name}}
-                                        @endforeach
-                                    </td>
-                                    <td>{{ $topshiriq->category->name }}</td>
-                                    <td>
+                                        @if($topshiriq->file)
+                                            
                                         <a href="{{ asset('files/' . $topshiriq->file) }}"
                                             style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff;"
                                             target="_blank">
@@ -81,9 +145,54 @@
                                             </svg>
                                             <span style="font-size: 12px; margin-top: 5px;">Yuklash</span>
                                         </a>
+                                        @else
+                                        <div style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid red; border-radius: 4px; color: red; cursor: not-allowed;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                                                stroke-width="2" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10" stroke="red" fill="none" />
+                                                <text x="12" y="16" text-anchor="middle" style="font-size: 16px; fill: red;">?</text>
+                                            </svg>
+                                            <span style="font-size: 12px; margin-top: 5px;">Mavjud emas</span>
+                                        </div>
+                                        @endif
                                     </td>
-
-
+                                    <td>{{ $topshiriq->created_at }}</td>
+                                    <td>{{ $topshiriq->muddat }}</td>
+                                    <td>{{ $topshiriq->category->name }}</td>
+                                    <td>
+                                        
+                                        @foreach($topshiriq->regions as $r)
+                                        @if($r->pivot->status !='ochilgan')
+                                            @if($loop->first)
+                                                <a href="#"
+                                                   style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #ff0000; border-radius: 4px; color: #ff0000;"
+                                                   target="_blank">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+                                                         stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                        <path d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span style="font-size: 12px; margin-top: 5px;">{{ $r->pivot->status }}</span>
+                                                </a>
+                                            @endif
+                                        @else
+                                        @if($loop->first)
+                                        <a href="#"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff; pointer-events: none;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+                                                <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0"/>
+                                                <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708"/>
+                                            </svg>
+                                            <span style="font-size: 12px; margin-top: 5px;">
+                                               
+                                                    {{ $r->pivot->status }}
+                                            </span>
+                                        </a>
+                                    @endif
+                                        @endif
+                                        @endforeach
+                                    </td>
+                                    
+                                        
 
                                     <td>
                                         <a href="{{route('topshiriqedit',$topshiriq->id)}}"
@@ -97,6 +206,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $topshiriqlar->links() }}
                     </div>
                 </div>
 
