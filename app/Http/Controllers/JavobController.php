@@ -12,6 +12,11 @@ class JavobController extends Controller
     public function ijro()
     {
         $region = Auth::user()->region;
+        if(!$region || $region->topshiriqlar()->count() ==0)
+        {
+            return redirect()->back()->with('success',"Sizga hech qanday topshiriq kelib tushmagan");
+        }
+        
         $all = $region->topshiriqlar()->count();
         $twodays = $region->topshiriqlar()->whereDate('muddat', now()->addDays(2))->count();
         $tomorrow = $region->topshiriqlar()->whereDate('muddat', now()->addDays(1))->count();

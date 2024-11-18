@@ -52,8 +52,9 @@ require __DIR__.'/auth.php';
     Route::get('topshiriqedit{topshiriq}',[TopshiriqController::class,'topshiriqedit'])->name('topshiriqedit')->middleware(Check::class.':admin');
     Route::post('topshiriqupdate{topshiriq}',[TopshiriqController::class,'topshiriqupdate'])->name('topshiriqupdate')->middleware(Check::class.':admin');
     Route::get('topshiriqdelete{topshiriq}',[TopshiriqController::class,'topshiriqdelete'])->name('topshiriqdelete')->middleware(Check::class.':admin');
-    Route::get('calculate/{day}',[TopshiriqController::class,'calculate'])->name('calculate')->middleware(Check::class.':admin');
-    Route::get('accept/{topshiriq}/{id}',[TopshiriqController::class,'accept'])->name('accept')->middleware(Check::class.':admin');
+    Route::get('calculate/{day}',[TopshiriqController::class,'calculate'])->name('calculate');
+    Route::get('accept/{topshiriq}/{id}',[TopshiriqController::class,'accept'])->name('accept');
+    Route::post('filtr',[TopshiriqController::class,'filtr'])->name('filtr');
 
     Route::get('ijro',[JavobController::class,'ijro'])->name('ijro');
     Route::get('usertopshiriq/{day}',[JavobController::class,'usertopshiriq'])->name('usertopshiriq');

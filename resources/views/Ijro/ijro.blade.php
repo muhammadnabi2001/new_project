@@ -173,7 +173,8 @@
                                             <span style="font-size: 12px; margin-top: 5px;">Qabul qilish</span>
                                         </a>
                                         @endif
-                                        @if($r->pivot->status == 'ochilgan')
+                                        @if($r->pivot->status == 'ochilgan' && Auth::user()->region->name ==
+                                        $r->name)
                                         <a href="#"
                                             style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff; pointer-events: none;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"

@@ -37,9 +37,12 @@
                                     name="email" value="{{$user->email}}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">User Role</label>
-                                <input type="tex" class="form-control" placeholder="input user role"
-                                    name="role" value="{{$user->role}}">
+                                <label for="user-select" class="form-label">Select User</label>
+                                <select name="role" id="user-select" class="form-control">
+                                    <option value="" disabled selected>{{$user->role}}</option>
+                                        <option value="admin">admin</option>
+                                        <option value="user">user</option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-success">Update</button>
                         </form>
