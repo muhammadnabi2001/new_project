@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\JavobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\TopshiriqController;
@@ -52,3 +53,7 @@ require __DIR__.'/auth.php';
     Route::post('topshiriqupdate{topshiriq}',[TopshiriqController::class,'topshiriqupdate'])->name('topshiriqupdate')->middleware(Check::class.':admin');
     Route::get('topshiriqdelete{topshiriq}',[TopshiriqController::class,'topshiriqdelete'])->name('topshiriqdelete')->middleware(Check::class.':admin');
     Route::get('calculate/{day}',[TopshiriqController::class,'calculate'])->name('calculate')->middleware(Check::class.':admin');
+    Route::get('accept/{topshiriq}/{id}',[TopshiriqController::class,'accept'])->name('accept')->middleware(Check::class.':admin');
+
+    Route::get('ijro',[JavobController::class,'ijro'])->name('ijro');
+    Route::get('usertopshiriq/{day}',[JavobController::class,'usertopshiriq'])->name('usertopshiriq');

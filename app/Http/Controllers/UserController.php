@@ -10,7 +10,10 @@ class UserController extends Controller
 {
     public function user()
     {
-        $user=User::orderBy('id','desc')->get();
+        $user = User::where('role', '!=', 'admin')
+            ->orderBy('id', 'desc')
+            ->get();
+
         return view('User.users',['users'=>$user]);
     }
     public function usercreate()

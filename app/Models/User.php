@@ -50,9 +50,5 @@ class User extends Authenticatable
     {
        return $this->hasOne(Region::class,'user_id');
     }
-    public function daycount()
-    {
-        $tasks=Topshiriq::all();
-        return $tasks->count();
-    }
+    
 }

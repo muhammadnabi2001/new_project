@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Javob;
 use App\Models\Region;
 use App\Models\Topshiriq;
 use Illuminate\Http\Request;
@@ -100,7 +101,7 @@ class TopshiriqController extends Controller
 
             $topshiriq->file = $filename;
         }
-        
+
 
         $topshiriq->save();
         $topshiriq->regions()->sync($request->regions);
@@ -134,5 +135,22 @@ class TopshiriqController extends Controller
         })->whereDate('muddat', now()->addDays($day))
             ->paginate(5);
         return view('Topshiriq.topshiriq', ['topshiriqlar' => $topshiriqlar, 'barchasi' => $barchasi, 'twodays' => $twodays, 'tomorrow' => $tomorrow, 'today' => $today]);
+    }
+    public function accept(Topshiriq $topshiriq, int $id)
+    {
+        $region = $topshiriq->regions()->where('regions.id', $id)->first();
+
+        if ($region) {
+            $region->pivot->status = 'ochilgan';
+            $region->pivot->save();
+        }
+        Javob::create([
+            'topshiriq_id' => $topshiriq->id,
+            'region_id' => $region->id,
+            'file'=>$topshiriq->file,
+            'title' => 'null', 
+            'status' => 'pending',
+        ]);
+        return redirect('ijro');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Topshiriq extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'category_id',
         'ijrochi',
         'title',
@@ -16,10 +16,14 @@ class Topshiriq extends Model
     ];
     public function category()
     {
-        return $this->belongsTo(Category::class,'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
     public function regions()
     {
-        return $this->belongsToMany(Region::class,'region_topshiriqs')->withPivot('status');
+        return $this->belongsToMany(Region::class, 'region_topshiriqs')->withPivot('status');
+    }
+    public function javoblar()
+    {
+        return $this->hasMany(Javob::class, 'topshiriq_id');
     }
 }

@@ -15,7 +15,7 @@ class RegionController extends Controller
     }
     public function regioncreate()
     {
-        $users=User::all();
+        $users=User::where('role','!=','admin')->get();
         return view('Region.regioncreate',['users'=>$users]);
     }
     public function regionstore(Request $request)
@@ -31,7 +31,7 @@ class RegionController extends Controller
     public function regionedit(Region $region)
     {
         //dd($region);
-        $users=User::all();
+        $users=User::where('role','!=','admin')->get();
         return view('Region.regionupdate',['region'=>$region,'users'=>$users]);
     }
     public function regionupdate(Request $request, Region $region)
