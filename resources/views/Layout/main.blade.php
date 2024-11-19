@@ -159,6 +159,14 @@
                             </a>
                         </li>              
                         <li class="nav-item">
+                            <a href="/natija" class="nav-link">
+                                <i class="nav-icon fas fa-bars"></i>
+                                <p>
+                                    Topshiriqlar ijrosi
+                                </p>
+                            </a>
+                        </li>              
+                        <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="nav-icon fas fa-bars"></i>
                                 <p>Logout</p>

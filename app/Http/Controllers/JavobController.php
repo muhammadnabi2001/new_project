@@ -80,20 +80,22 @@ class JavobController extends Controller
             'title' => 'required',
             'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
         ]);
+        $javob=new Javob();
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $filename = date("Y-m-d") . '_' . time() . '.' . $extension;
 
             $file->move(public_path('files'), $filename);
+            $javob->file=$filename;
         }
-        Javob::create([
-            'region_id' => Auth::user()->region->id,
-            'topshiriq_id' => $topshiriq->id,
-            'title' => $request->title,
-            'file' => $request->file,
-            'status' => 'kutilmoqda'
-        ]);
+        $javob->region_id= Auth::user()->region->id;
+        $javob->topshiriq_id=$topshiriq->id;
+        $javob->title=$request->title;
+        $javob->status='kutilmoqda';
+        $javob->izoh='null';
+        $javob->save();
+        
         return redirect()->back()->with('success', "Sizning bajargan vazifangiz muvvafaqiyatli junatildi");
     }
 
@@ -119,5 +121,17 @@ class JavobController extends Controller
         } else {
             return redirect()->back()->with('error', 'Hudud topilmadi.');
         }
+    }
+    public function natija()
+    {
+        //dd(1233);
+        $javoblar = Javob::orderBy('id','desc')->paginate(5);
+        return view('Natija.natija',['javoblar'=>$javoblar]);
+    }
+    public function filtrnatija(Request $request)
+    {
+        //dd($request->all());
+        $javoblar = Javob::orderBy('id','desc')->whereBetween('created_at',[$request->start,$request->end])->paginate(5);
+        return view('Natija.natija',['javoblar'=>$javoblar]);
     }
 }

@@ -61,3 +61,5 @@ require __DIR__.'/auth.php';
     Route::get('view/{topshiriq}',[JavobController::class,'view'])->name('view');
     Route::post('bajarish/{topshiriq}',[JavobController::class,'bajarish'])->name('bajarish');
     Route::get('sort',[JavobController::class,'sort'])->name('sort');
+    Route::get('natija',[JavobController::class,'natija'])->name('natija');
+    Route::get('filtrnatija',[JavobController::class,'filtrnatija'])->name('filtrnatija');

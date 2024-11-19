@@ -11,7 +11,8 @@ class Javob extends Model
         'region_id',
         'title',
         'file',
-        'status'
+        'status',
+        'izoh'
     ];
     public function region()
     {

@@ -144,7 +144,8 @@ class TopshiriqController extends Controller
             $region->pivot->save();
         }
 
-        return redirect('ijro');
+        return back()->with('success', "Sizning topshirig'ingiz muvvafaqiyatli qabul qilindi");
+
     }
     public function filtr(Request $request)
     {

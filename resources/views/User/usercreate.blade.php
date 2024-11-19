@@ -35,9 +35,13 @@
                                 <input type="email" class="form-control" name="email">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">UserRole</label>
-                                <input type="text" class="form-control" name="role">
+                                <label for="user-select" class="form-label">Select User</label>
+                                <select name="role" id="user-select" class="form-control">
+                                    <option value="admin">admin</option>
+                                    <option value="user" selected>user</option> 
+                                </select>
                             </div>
+                            
                             <div class="mb-3">
                                 <label class="form-label">UserPassword</label>
                                 <input type="password" class="form-control" name="password">
