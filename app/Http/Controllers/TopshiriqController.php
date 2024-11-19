@@ -105,9 +105,10 @@ class TopshiriqController extends Controller
 
         return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqiyatli yangilandi");
     }
-    public function topshiriqdelete(Topshiriq $topshiriq)
+    public function topshiriqdelete(int $id)
     {
         //dd($topshiriq);
+        $topshiriq=RegionTopshiriq::findOrFail($id);
         $topshiriq->delete();
         return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqatiyatli o'chirildi");
     }

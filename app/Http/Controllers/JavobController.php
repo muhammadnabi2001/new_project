@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Javob;
+use App\Models\RegionTopshiriq;
 use App\Models\Topshiriq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class JavobController extends Controller
 {
-    public function ijro()
+    public function vazifa()
     {
         $region = Auth::user()->region;
-        if(!$region || $region->topshiriqlar()->count() ==0)
-        {
-            return redirect()->back()->with('success',"Sizga hech qanday topshiriq kelib tushmagan");
+        if (!$region || $region->topshiriqlar()->count() == 0) {
+            return redirect()->back()->with('success', "Sizga hech qanday topshiriq kelib tushmagan");
         }
-        
+
         $all = $region->topshiriqlar()->count();
         $twodays = $region->topshiriqlar()->whereDate('muddat', now()->addDays(2))->count();
         $tomorrow = $region->topshiriqlar()->whereDate('muddat', now()->addDays(1))->count();
@@ -44,14 +44,14 @@ class JavobController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'file' => 'nullable|file', 
+            'file' => 'nullable|file',
             'status' => 'required|string',
-            'region_id' => 'required|exists:regions,id', 
+            'region_id' => 'required|exists:regions,id',
         ]);
 
         $filePath = null;
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('javoblar'); 
+            $filePath = $request->file('file')->store('javoblar');
         }
 
         Javob::create([
@@ -64,9 +64,60 @@ class JavobController extends Controller
 
         return redirect()->route('topshiriq.show', $topshiriq->id)->with('success', 'Javob muvaffaqiyatli saqlandi!');
     }
-    public function begin(Topshiriq $topshiriq)
+    public function view(Topshiriq $topshiriq)
     {
         //dd($topshiriq);
-        return view('Ijro.javob',['topshiriq'=>$topshiriq]);
+        return view('Ijro.view', ['topshiriq' => $topshiriq]);
+    }
+    public function bajarish(Request $request, Topshiriq $topshiriq)
+    {
+        $regionTopshiriq = RegionTopshiriq::where('region_id', Auth::user()->region->id)
+            ->where('topshiriq_id', $topshiriq->id)
+            ->first();
+        $regionTopshiriq->status = "bajarildi";
+        $regionTopshiriq->save();
+        $request->validate([
+            'title' => 'required',
+            'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
+        ]);
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = date("Y-m-d") . '_' . time() . '.' . $extension;
+
+            $file->move(public_path('files'), $filename);
+        }
+        Javob::create([
+            'region_id' => Auth::user()->region->id,
+            'topshiriq_id' => $topshiriq->id,
+            'title' => $request->title,
+            'file' => $request->file,
+            'status' => 'kutilmoqda'
+        ]);
+        return redirect()->back()->with('success', "Sizning bajargan vazifangiz muvvafaqiyatli junatildi");
+    }
+
+    public function sort(Request $request)
+    {
+        //dd($request->all());
+        $region = Auth::user()->region;
+        if (!$region || $region->topshiriqlar()->count() == 0) {
+            return redirect()->back()->with('success', "Sizga hech qanday topshiriq kelib tushmagan");
+        }
+
+        $all = $region->topshiriqlar()->count();
+        $twodays = $region->topshiriqlar()->whereDate('muddat', now()->addDays(2))->count();
+        $tomorrow = $region->topshiriqlar()->whereDate('muddat', now()->addDays(1))->count();
+        $today = $region->topshiriqlar()->whereDate('muddat', now())->count();
+        if ($region) {
+            $topshiriqlar = $region->topshiriqlar()
+            ->whereBetween('topshiriqs.muddat', [$request->start, $request->end]) // 'topshiriqs.created_at' deb to'liq ko'rsating
+            ->paginate(5);
+        
+
+            return view('Ijro.ijro', ['topshiriqlar' => $topshiriqlar, 'all' => $all, 'twodays' => $twodays, 'tomorrow' => $tomorrow, 'today' => $today]);
+        } else {
+            return redirect()->back()->with('error', 'Hudud topilmadi.');
+        }
     }
 }

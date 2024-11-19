@@ -106,52 +106,7 @@
                 </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div class="row">
-                <div class="col-5">
-                    <div class="table-responsive">
-                        <form action="/topshiriqstore" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="mb-3">
-                                <label class="form-label">Answer Title</label>
-                                <input type="text" class="form-control" name="title" placeholder="input title">
-                            </div>
-                           
-                            <div class="mb-3">
-                                <label class="form-label">File</label>
-                                <input type="file" class="form-control" name="file">
-                            </div>
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
 </div>

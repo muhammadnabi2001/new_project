@@ -151,10 +151,10 @@
                             </a>
                         </li>              
                         <li class="nav-item">
-                            <a href="/ijro" class="nav-link">
+                            <a href="/vazifa" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
                                 <p>
-                                    Topshiriqlar Ijrosi
+                                    Topshiriqlarim
                                 </p>
                             </a>
                         </li>              
