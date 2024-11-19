@@ -157,18 +157,15 @@ class TopshiriqController extends Controller
             ->paginate(5);
 
         $barchasi = RegionTopshiriq::count();
-        $twodays = RegionTopshiriq::where('status', 'topshirildi')
-            ->whereHas('topshiriq', function ($query) {
+        $twodays = RegionTopshiriq::whereHas('topshiriq', function ($query) {
                 $query->whereDate('muddat', now()->addDays(2));
             })
             ->get();
-        $tomorrow = RegionTopshiriq::where('status', 'topshirildi')
-            ->whereHas('topshiriq', function ($query) {
+        $tomorrow = RegionTopshiriq::whereHas('topshiriq', function ($query) {
                 $query->whereDate('muddat', now()->addDays(1));
             })
             ->get();
-        $today = RegionTopshiriq::where('status', 'topshirildi')
-            ->whereHas('topshiriq', function ($query) {
+        $today = RegionTopshiriq::whereHas('topshiriq', function ($query) {
                 $query->whereDate('muddat', now()->addDays(0));
             })
             ->get();

@@ -58,3 +58,4 @@ require __DIR__.'/auth.php';
 
     Route::get('ijro',[JavobController::class,'ijro'])->name('ijro');
     Route::get('usertopshiriq/{day}',[JavobController::class,'usertopshiriq'])->name('usertopshiriq');
+    Route::get('begin/{topshiriq}',[JavobController::class,'begin'])->name('begin');

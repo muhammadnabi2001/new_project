@@ -64,4 +64,9 @@ class JavobController extends Controller
 
         return redirect()->route('topshiriq.show', $topshiriq->id)->with('success', 'Javob muvaffaqiyatli saqlandi!');
     }
+    public function begin(Topshiriq $topshiriq)
+    {
+        //dd($topshiriq);
+        return view('Ijro.javob',['topshiriq'=>$topshiriq]);
+    }
 }

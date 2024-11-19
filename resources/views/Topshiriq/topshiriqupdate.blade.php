@@ -26,7 +26,7 @@
                         <form action="{{route('topshiriqupdate',$topshiriq->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="category" class="form-label">Select User</label>
+                                <label for="category" class="form-label">Select Category</label>
                                 <select name="category_id" id="category" class="form-control">
                                     <option value="{{$topshiriq->category->id}}" selected>{{$topshiriq->category->name}}</option>
                                     @foreach($categories as $category)

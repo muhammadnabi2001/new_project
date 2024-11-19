@@ -190,7 +190,7 @@
                                         @endforeach
                                     </td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">
-                                        <a href="" class="btn btn-info" style="border-radius: 12%">Bajarish</a>
+                                        <a href="{{route('begin',$topshiriq->id)}}" class="btn btn-info" style="border-radius: 12%">Bajarish</a>
                                     </td>
                                 </tr>
                                 @endforeach
