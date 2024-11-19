@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Google Font: Source Sans Pro -->
@@ -37,15 +38,14 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
-                height="60" width="60">
+            <img class="animation__shake" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60"
+                width="60">
         </div>
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a class="nav-link">Home</a>
@@ -117,6 +117,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
+                        @if(Auth::user()->role =='admin')
 
                         <li class="nav-item">
                             <a href="/users" class="nav-link">
@@ -125,7 +126,9 @@
                                     Users
                                 </p>
                             </a>
-                        </li>              
+                        </li>
+                        @endif
+                        @if(Auth::user()->role =='admin')
                         <li class="nav-item">
                             <a href="/categories" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
@@ -133,7 +136,9 @@
                                     Categories
                                 </p>
                             </a>
-                        </li>              
+                        </li>
+                        @endif
+                        @if(Auth::user()->role =='admin')
                         <li class="nav-item">
                             <a href="/regions" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
@@ -141,7 +146,9 @@
                                     Regions
                                 </p>
                             </a>
-                        </li>              
+                        </li>
+                        @endif
+                        @if(Auth::user()->role =='admin')
                         <li class="nav-item">
                             <a href="/topshiriqlar" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
@@ -149,7 +156,9 @@
                                     Topshiriqlar
                                 </p>
                             </a>
-                        </li>              
+                        </li>
+                        @endif
+                        @if(Auth::user()->role =='user')
                         <li class="nav-item">
                             <a href="/vazifa" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
@@ -157,7 +166,9 @@
                                     Topshiriqlarim
                                 </p>
                             </a>
-                        </li>              
+                        </li>
+                        @endif
+                        @if(Auth::user()->role =='admin')
                         <li class="nav-item">
                             <a href="/natija" class="nav-link">
                                 <i class="nav-icon fas fa-bars"></i>
@@ -165,9 +176,11 @@
                                     Topshiriqlar ijrosi
                                 </p>
                             </a>
-                        </li>              
+                        </li>
+                        @endif
                         <li class="nav-item">
-                            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a href="{{ route('logout') }}" class="nav-link"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="nav-icon fas fa-bars"></i>
                                 <p>Logout</p>
                             </a>
@@ -196,7 +209,9 @@
     </div>
 
     <!-- jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
@@ -232,7 +247,7 @@
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
-  <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
@@ -369,7 +384,7 @@
           myDropzone.removeAllFiles(true)
         }
         // DropzoneJS Demo Code End
-      </script>
+    </script>
 </body>
 
 </html>
