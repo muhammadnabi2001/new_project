@@ -25,26 +25,26 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
     Route::get('mainpage',[ProfileController::class,'mainpage'])->name('mainpage');
-    Route::get('users',[UserController::class,'user'])->name('users');
-    Route::get('usercreate',[UserController::class,'usercreate'])->name('usercreate');
+    Route::get('users',[UserController::class,'user'])->name('users')->middleware(Check::class.':admin');
+    Route::get('usercreate',[UserController::class,'usercreate'])->name('usercreate')->middleware(Check::class.':admin');
     Route::get('useredit{user}',[UserController::class,'useredit'])->name('useredit');
-    Route::post('userupdate{user}',[UserController::class,'userupdate'])->name('userupdate');
-    Route::post('userstore',[UserController::class,'userstore'])->name('userstore');
-    Route::get('userdelete{user}',[UserController::class,'userdelete'])->name('userdelete');
+    Route::post('userupdate{user}',[UserController::class,'userupdate'])->name('userupdate')->middleware(Check::class.':admin');
+    Route::post('userstore',[UserController::class,'userstore'])->name('userstore')->middleware(Check::class.':admin');
+    Route::get('userdelete{user}',[UserController::class,'userdelete'])->name('userdelete')->middleware(Check::class.':admin');
 
-    Route::get('categories',[CategoryController::class,'category'])->name('categories');
-    Route::get('categorycreate',[CategoryController::class,'categorycreate'])->name('categorycreate');
-    Route::post('categorystore',[CategoryController::class,'categorystore'])->name('categorystore');
-    Route::get('categoryedit{category}',[CategoryController::class,'categoryedit'])->name('categoryedit');
-    Route::post('categoryupdate{category}',[CategoryController::class,'categoryupdate'])->name('categoryupdate');
-    Route::get('categorydelete{category}',[CategoryController::class,'categorydelete'])->name('categorydelete');
+    Route::get('categories',[CategoryController::class,'category'])->name('categories')->middleware(Check::class.':admin');
+    Route::get('categorycreate',[CategoryController::class,'categorycreate'])->name('categorycreate')->middleware(Check::class.':admin');
+    Route::post('categorystore',[CategoryController::class,'categorystore'])->name('categorystore')->middleware(Check::class.':admin');
+    Route::get('categoryedit{category}',[CategoryController::class,'categoryedit'])->name('categoryedit')->middleware(Check::class.':admin');
+    Route::post('categoryupdate{category}',[CategoryController::class,'categoryupdate'])->name('categoryupdate')->middleware(Check::class.':admin');
+    Route::get('categorydelete{category}',[CategoryController::class,'categorydelete'])->name('categorydelete')->middleware(Check::class.':admin');
 
-    Route::get('regions',[RegionController::class,'regions'])->name('regions');
-    Route::get('regioncreate',[RegionController::class,'regioncreate'])->name('regioncreate');
-    Route::post('regionstore',[RegionController::class,'regionstore'])->name('regionstore');
-    Route::get('regionedit{region}',[RegionController::class,'regionedit'])->name('regionedit');
-    Route::post('regionupdate{region}',[RegionController::class,'regionupdate'])->name('regionupdate');
-    Route::get('regiondelete{region}',[RegionController::class,'regiondelete'])->name('regiondelete');
+    Route::get('regions',[RegionController::class,'regions'])->name('regions')->middleware(Check::class.':admin');
+    Route::get('regioncreate',[RegionController::class,'regioncreate'])->name('regioncreate')->middleware(Check::class.':admin');
+    Route::post('regionstore',[RegionController::class,'regionstore'])->name('regionstore')->middleware(Check::class.':admin');
+    Route::get('regionedit{region}',[RegionController::class,'regionedit'])->name('regionedit')->middleware(Check::class.':admin');
+    Route::post('regionupdate{region}',[RegionController::class,'regionupdate'])->name('regionupdate')->middleware(Check::class.':admin');
+    Route::get('regiondelete{region}',[RegionController::class,'regiondelete'])->name('regiondelete')->middleware(Check::class.':admin');
 
     Route::get('topshiriqlar',[TopshiriqController::class,'topshiriqlar'])->name('topshiriqlar')->middleware(Check::class.':admin');
     Route::get('topshiriqcreate',[TopshiriqController::class,'topshiriqcreate'])->name('topshiriqcreate')->middleware(Check::class.':admin');
@@ -56,10 +56,10 @@ require __DIR__.'/auth.php';
     Route::get('accept/{topshiriq}/{id}',[TopshiriqController::class,'accept'])->name('accept');
     Route::get('filtr',[TopshiriqController::class,'filtr'])->name('filtr');
 
-    Route::get('vazifa',[JavobController::class,'vazifa'])->name('vazifa');
-    Route::get('usertopshiriq/{day}',[JavobController::class,'usertopshiriq'])->name('usertopshiriq');
-    Route::get('view/{topshiriq}',[JavobController::class,'view'])->name('view');
-    Route::post('bajarish/{topshiriq}',[JavobController::class,'bajarish'])->name('bajarish');
-    Route::get('sort',[JavobController::class,'sort'])->name('sort');
-    Route::get('natija',[JavobController::class,'natija'])->name('natija');
-    Route::get('filtrnatija',[JavobController::class,'filtrnatija'])->name('filtrnatija');
+    Route::get('vazifa',[JavobController::class,'vazifa'])->name('vazifa')->middleware(Check::class.':user');
+    Route::get('usertopshiriq/{day}',[JavobController::class,'usertopshiriq'])->name('usertopshiriq')->middleware(Check::class.':user');
+    Route::get('view/{topshiriq}',[JavobController::class,'view'])->name('view')->middleware(Check::class.':user');
+    Route::post('bajarish/{topshiriq}',[JavobController::class,'bajarish'])->name('bajarish')->middleware(Check::class.':user');
+    Route::get('sort',[JavobController::class,'sort'])->name('sort')->middleware(Check::class.':user');
+    Route::get('natija',[JavobController::class,'natija'])->name('natija')->middleware(Check::class.':admin');
+    Route::get('filtrnatija',[JavobController::class,'filtrnatija'])->name('filtrnatija')->middleware(Check::class.':user');
