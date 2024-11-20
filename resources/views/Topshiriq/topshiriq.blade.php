@@ -248,6 +248,14 @@
                                             <span style="font-size: 12px; margin-top: 5px;">Bajargan</span>
                                         </a>
                                         @endif
+                                        @if($regiontopshiriq->status == 'approwed')
+                                        <!-- Rad etilgan tugma -->
+                                        <a href="#"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #afef00; border-radius: 4px; color: #50ef00; cursor: not-allowed; pointer-events: none;">
+                                            <i class="fa fa-check" style="font-size: 20px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Tasdiqlangan</span>
+                                        </a>
+                                        @endif
 
 
                                     </td>

@@ -10,7 +10,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h5>Barchasi - {{$barchasi}} ta</h5>
+                        <h3>Barchasi - {{$barchasi}} ta</h3>
 
                         <p>Hammasini ko'rish</p>
                     </div>
