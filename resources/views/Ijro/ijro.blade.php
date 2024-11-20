@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </form>
-           
+
 
         </div>
     </div>
@@ -145,6 +145,7 @@
                                     <th>category</th>
                                     <th>statusi</th>
                                     <th>view</th>
+                                    <th>Javob</th>
                                 </tr>
                             </thead>
                             <tbody id="userTableBody">
@@ -265,7 +266,14 @@
                                             <span style="font-size: 12px; margin-top: 5px;">Kutilmoqda</span>
                                         </a>
                                         @endif
-
+                                        @if($r->pivot->status == 'approwed' && Auth::user()->region->name == $r->name)
+                                        <!-- Rad etilgan tugma -->
+                                        <a href="#"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #afef00; border-radius: 4px; color: #50ef00; cursor: not-allowed; pointer-events: none;">
+                                            <i class="fa fa-check" style="font-size: 20px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Tasdiqlangan</span>
+                                        </a>
+                                        @endif
 
                                         @endforeach
                                     </td>
@@ -279,6 +287,63 @@
                                                     d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
                                             </svg></a>
                                     </td>
+                                    <td>
+                                        @if ($topshiriq->javob)
+                                        @if ($topshiriq->javob->status == 'approwed')
+                                        <div
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #28a745; border-radius: 4px; color: #28a745; background-color: #f8f9fa; text-align: center;">
+                                            <i class="fas fa-check-circle" style="font-size: 16px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Accepted</span>
+                                        </div>
+                                        @elseif ($topshiriq->javob->status == 'rejected')
+                                        <div style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #dc3545; border-radius: 4px; color: #dc3545; background-color: #f8f9fa; text-align: center; cursor: pointer;"
+                                            data-bs-toggle="modal" data-bs-target="#rejectedModal{{$topshiriq->id}}">
+                                            <i class="fas fa-times-circle" style="font-size: 16px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Qaytarilgan</span>
+                                        </div>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="rejectedModal{{$topshiriq->id}}" tabindex="-1"
+                                            aria-labelledby="rejectedModalLabel{{$topshiriq->id}}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="rejectedModalLabel{{$topshiriq->id}}">Javob Izohi</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Javob Izohini chiqarish -->
+                                                        @if ($topshiriq->javob->izoh)
+                                                        <p>{{ $topshiriq->javob->izoh }}</p>
+                                                        @else
+                                                        <p>Izoh mavjud emas.</p>
+                                                        @endif
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Yopish</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <div
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #ffc107; border-radius: 4px; color: #ffc107; background-color: #f8f9fa; text-align: center;">
+                                            <i class="fas fa-exclamation-circle" style="font-size: 16px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Aniqlanmagan</span>
+                                        </div>
+                                        @endif
+                                        @else
+                                        <div
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #6c757d; border-radius: 4px; color: #6c757d; background-color: #f8f9fa; text-align: center;">
+                                            <i class="fas fa-question-circle" style="font-size: 16px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Javob yo'q</span>
+                                        </div>
+                                        @endif
+                                    </td>
+
 
                                 </tr>
                                 @endforeach

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Javob;
+use App\Models\Region;
 use App\Models\RegionTopshiriq;
 use App\Models\Topshiriq;
 use Illuminate\Http\Request;
@@ -80,20 +81,25 @@ class JavobController extends Controller
             'title' => 'required',
             'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
         ]);
-        $javob=new Javob();
+        $javob = Javob::updateOrCreate(
+            [
+                'region_id' => Auth::user()->region->id,
+                'topshiriq_id' => $topshiriq->id,
+            ],
+            [
+                'title' => $request->title,
+                'status' => 'kutilmoqda',
+            ]
+        );
+    
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $filename = date("Y-m-d") . '_' . time() . '.' . $extension;
-
+    
             $file->move(public_path('files'), $filename);
-            $javob->file=$filename;
+            $javob->file = $filename;
         }
-        $javob->region_id= Auth::user()->region->id;
-        $javob->topshiriq_id=$topshiriq->id;
-        $javob->title=$request->title;
-        $javob->status='kutilmoqda';
-        $javob->izoh='null';
         $javob->save();
         
         return redirect()->back()->with('success', "Sizning bajargan vazifangiz muvvafaqiyatli junatildi");
@@ -133,5 +139,31 @@ class JavobController extends Controller
         //dd($request->all());
         $javoblar = Javob::orderBy('id','desc')->whereBetween('created_at',[$request->start,$request->end])->paginate(5);
         return view('Natija.natija',['javoblar'=>$javoblar]);
+    }
+    public function qabul(Javob $javob)
+    {
+        //dd($javob);
+        $topshiriq = RegionTopshiriq::where('region_id',$javob->region_id)->where('topshiriq_id',$javob->topshiriq_id)->first();
+        $topshiriq->status='approwed';
+        $javob->status='approwed';
+        $topshiriq->save();
+        $javob->save();
+        return redirect()->back()->with('success',"Topshiriq muvvafaqiyatli qabul qilindi");
+    }
+    public function reject(Request $request,Javob $javob)
+    {
+        //dd($javob->status);
+        //dd($request->all());
+        $request->validate([
+            'izoh'=>'required|max:255'
+        ]);
+        $topshiriq = RegionTopshiriq::where('region_id',$javob->region_id)->where('topshiriq_id',$javob->topshiriq_id)->first();
+        $topshiriq->status='topshirildi';
+        $javob->status='rejected';
+        $javob->izoh=$request->izoh;
+        $topshiriq->save();
+        $javob->save();
+       // dd($javob->izoh);
+        return redirect()->back()->with('success',"Topshiriq muvvafaqiyatli qaytarilidi");
     }
 }

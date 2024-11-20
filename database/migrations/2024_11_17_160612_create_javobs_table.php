@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('file')->nullable();
             $table->string('status');
-            $table->string('izoh');
+            $table->string('izoh')->nullable();
             $table->timestamps();
         });
     }

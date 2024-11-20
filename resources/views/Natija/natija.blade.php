@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </form>
-           
+
 
         </div>
     </div>
@@ -77,7 +77,7 @@
                                     <th>Yuborilgan vaqti</th>
                                     <th>Topshiriq title</th>
                                     <th>Topshiriq file</th>
-                                    <th>statusi</th>
+                                    <th>action</th>
                                 </tr>
                             </thead>
                             <tbody id="userTableBody">
@@ -90,7 +90,7 @@
 
                                         <a href="{{ asset('files/' . $javob->file) }}"
                                             style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff;"
-                                            target="_blank"> 
+                                            target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
                                                 stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path d="M12 5v14M19 12l-7 7-7-7" />
@@ -108,16 +108,17 @@
                                             </svg>
                                             <span style="font-size: 12px; margin-top: 5px;">Mavjud emas</span>
                                         </div>
-                                        @endif 
-                                     </td>
+                                        @endif
+                                    </td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">{{ $javob->created_at }}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ $javob->topshiriq->title }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">{{ $javob->topshiriq->title }}
+                                    </td>
                                     <td style="border: 1px solid #ddd; padding: 8px;">
                                         @if($javob->topshiriq->file)
 
                                         <a href="{{ asset('files/' . $javob->topshiriq->file) }}"
                                             style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff;"
-                                            target="_blank"> 
+                                            target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
                                                 stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path d="M12 5v14M19 12l-7 7-7-7" />
@@ -135,24 +136,72 @@
                                             </svg>
                                             <span style="font-size: 12px; margin-top: 5px;">Mavjud emas</span>
                                         </div>
-                                        @endif 
-                                     </td>
-                                     <td style="border: 1px solid #ddd; padding: 8px;">
-                                        @if($javob->status =='kutilmoqda')
-
-                                        <a href="#"
-                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #0800ff; border-radius: 4px; color: #1100ff; cursor: not-allowed;pointer-events: none;"
-                                            target="_blank">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
-                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <path d="M5 13l4 4L19 7" />
-                                            </svg>
+                                        @endif
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 8px;">
+                                        @if($javob->status == 'kutilmoqda')
+                                        <!-- Qabul qilish tugmasi -->
+                                        <a href="{{route('qabul',$javob->id)}}"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #00a65a; border-radius: 4px; color: #00a65a; margin-bottom: 10px;">
+                                            <i class="fa fa-check-circle" style="font-size: 20px;"></i>
                                             <span style="font-size: 12px; margin-top: 5px;">Qabul qilish</span>
                                         </a>
+
+                                        <!-- Qaytarish tugmasi -->
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#qaytarishModal"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #dd4b39; border-radius: 4px; color: #dd4b39;">
+                                            <i class="fa fa-undo" style="font-size: 20px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Qaytarish</span>
+                                        </a>
+
+                                        <!-- Qaytarish Modal -->
+                                        <div class="modal fade" id="qaytarishModal" tabindex="-1"
+                                            aria-labelledby="qaytarishModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="qaytarishModalLabel">Qaytarish uchun
+                                                            izoh</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Yopish"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="qaytarishForm" action="{{route('reject',$javob->id)}}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <textarea class="form-control" name="izoh"
+                                                                placeholder="Izoh kiriting" required></textarea>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Bekor qilish</button>
+                                                        <button type="submit" class="btn btn-danger"
+                                                            form="qaytarishForm">Qaytarish</button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @endif
-                                     </td>
-                                   
-                                    
+                                        @if($javob->status == 'approwed')
+                                        <!-- Tasdiqlangan tugma -->
+                                        <a href="#"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #afef00; border-radius: 4px; color: #50ef00; cursor: not-allowed; pointer-events: none;">
+                                            <i class="fa fa-check" style="font-size: 20px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Tasdiqlangan</span>
+                                        </a>
+                                        @endif
+                                        @if($javob->status == 'rejected')
+                                        <!-- Rad etilgan tugma -->
+                                        <a href="#"
+                                            style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #dd4b39; border-radius: 4px; color: #dd4b39; cursor: not-allowed; pointer-events: none;">
+                                            <i class="fa fa-times-circle" style="font-size: 20px;"></i>
+                                            <span style="font-size: 12px; margin-top: 5px;">Rad etilgan</span>
+                                        </a>
+                                        @endif
+
+                                    </td>
+
                                 </tr>
                                 @endforeach
                             </tbody>

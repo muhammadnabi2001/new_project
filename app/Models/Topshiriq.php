@@ -22,8 +22,8 @@ class Topshiriq extends Model
     {
         return $this->belongsToMany(Region::class, 'region_topshiriqs')->withPivot('status');
     }
-    public function javoblar()
+    public function javob()
     {
-        return $this->hasMany(Javob::class, 'topshiriq_id');
+        return $this->hasOne(Javob::class, 'topshiriq_id');
     }
 }

@@ -105,11 +105,13 @@ class TopshiriqController extends Controller
 
         return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqiyatli yangilandi");
     }
-    public function topshiriqdelete(int $id)
+    public function topshiriqdelete(RegionTopshiriq $regiontopshiriq)
     {
-        //dd($topshiriq);
-        $topshiriq=RegionTopshiriq::findOrFail($id);
-        $topshiriq->delete();
+        //dd($regiontopshiriq->id);
+        if (!$regiontopshiriq) {
+            return redirect()->back()->with('success', "Topshiriq topilmadi!");
+        }
+        $regiontopshiriq->delete();
         return redirect('topshiriqlar')->with('success', "Ma'lumot muvvafaqatiyatli o'chirildi");
     }
     public function calculate(int $day)
@@ -173,5 +175,26 @@ class TopshiriqController extends Controller
             ->get();
 
         return view('Topshiriq.topshiriq', ['regiontopshiriqlar' => $regiontopshiriqlar, 'barchasi' => $barchasi, 'twodays' => $twodays, 'tomorrow' => $tomorrow, 'today' => $today]);
+    }
+    public function boshqaruv()
+    {
+        $categories=Category::all();
+        $regions=Region::all();
+
+       $barchasi = RegionTopshiriq::count();
+
+
+        return view('Boshqaruv.boshqaruv',['categories'=>$categories,'regions'=>$regions,'barchasi'=>$barchasi]);
+    }
+    public function detail($regionId,$categoryId)
+    {
+       // dd($regionId,$category_id);
+       
+       $region = Region::findOrFail($regionId);
+       $topshiriqlar = $region->topshiriqlar()
+        ->where('category_id', $categoryId)  
+        ->get();
+        return view("Boshqaruv.detail",['topshiriqlar'=>$topshiriqlar]);
+
     }
 }
