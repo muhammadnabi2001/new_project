@@ -94,112 +94,115 @@
         </nav>
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/" class="brand-link">
-                <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
-            </a>
+
 
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
-                            alt="User Image">
+                        <!-- Dasturlash ikonkasi -->
+                        <i class="fas fa-laptop-code fa-3x" style="color: #00bcd4;"></i>
+                        <!-- Rangni o'zgartirishingiz mumkin -->
                     </div>
                     <div class="info">
-                        <a class="d-block">Alexander Pierce</a>
+                        <a class="d-block" style="color: #00bcd4;"></a> <!-- Rangni o'zgartirishingiz mumkin -->
                     </div>
                 </div>
+
+
+
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         @if(Auth::user()->role =='admin')
+                        <li class="nav-item">
+                            <a href="/users" class="nav-link {{ request()->is('users') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+
 
                         <li class="nav-item">
-                            <a href="/users" class="nav-link">
-                                <i class="nav-icon fas fa-bars"></i>
-                                <p>
-                                    Users
-                                </p>
+                            <a href="{{ route('boshqaruv') }}"
+                                class="nav-link {{ request()->is('boshqaruv') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>Boshqaruv</p>
                             </a>
                         </li>
-                        @endif
-                        @if(Auth::user()->role =='admin')
 
                         <li class="nav-item">
-                            <a href="{{route('boshqaruv')}}" class="nav-link">
-                                <i class="nav-icon fas fa-bars"></i>
-                                <p>
-                                    Boshqaruv
-                                </p>
+                            <a href="/categories" class="nav-link {{ request()->is('categories') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-th-list"></i>
+                                <p>Categories</p>
                             </a>
                         </li>
-                        @endif
-                        @if(Auth::user()->role =='admin')
+
                         <li class="nav-item">
-                            <a href="/categories" class="nav-link">
-                                <i class="nav-icon fas fa-bars"></i>
-                                <p>
-                                    Categories
-                                </p>
+                            <a href="/regions" class="nav-link {{ request()->is('regions') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-globe"></i>
+                                <p>Regions</p>
                             </a>
                         </li>
-                        @endif
-                        @if(Auth::user()->role =='admin')
+
                         <li class="nav-item">
-                            <a href="/regions" class="nav-link">
-                                <i class="nav-icon fas fa-bars"></i>
-                                <p>
-                                    Regions
-                                </p>
+                            <a href="/topshiriqlar"
+                                class="nav-link {{ request()->is('topshiriqlar') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-clipboard-check"></i> <!-- Ikonka o‘zgartirildi -->
+                                <p>Topshiriqlar</p>
                             </a>
                         </li>
-                        @endif
-                        @if(Auth::user()->role =='admin')
-                        <li class="nav-item">
-                            <a href="/topshiriqlar" class="nav-link">
-                                <i class="nav-icon fas fa-bars"></i>
-                                <p>
-                                    Topshiriqlar
-                                </p>
-                            </a>
-                        </li>
+
+
                         @endif
                         @if(Auth::user()->role =='user')
                         <li class="nav-item">
-                            <a href="/vazifa" class="nav-link">
-                                <i class="nav-icon fas fa-bars"></i>
-                                <p>
-                                    Topshiriqlarim
-                                </p>
+                            <a href="/vazifa" class="nav-link {{ request()->is('vazifa') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tasks"></i> <!-- Topshiriqlarim Ikonka -->
+                                <p>Topshiriqlarim</p>
                             </a>
                         </li>
-                        @endif
+                    @endif
+                    
                         @if(Auth::user()->role =='admin')
                         <li class="nav-item">
-                            <a href="/natija" class="nav-link">
-                                <i class="nav-icon fas fa-bars"></i>
-                                <p>
-                                    Topshiriqlar ijrosi
-                                </p>
+                            <a href="/natija" class="nav-link {{ request()->is('natija') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-clipboard-list"></i> <!-- Yangi Ikonka -->
+                                <p>Topshiriqlar ijrosi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/xisobot" class="nav-link {{ request()->is('xisobot') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-chart-line"></i> <!-- Xisobot Ikonka -->
+                                <p>Xisobot</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/statistika" class="nav-link {{ request()->is('statistika') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-chart-bar"></i> <!-- Statistika Ikonka -->
+                                <p>Statistika</p>
                             </a>
                         </li>
                         @endif
+
+
+
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="nav-icon fas fa-bars"></i>
+                                <i class="nav-icon fas fa-sign-out-alt"></i> <!-- Logout uchun Ikonka -->
                                 <p>Logout</p>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </li>
+
                     </ul>
+
                 </nav>
             </div>
         </aside>

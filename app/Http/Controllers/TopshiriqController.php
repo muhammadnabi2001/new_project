@@ -180,11 +180,31 @@ class TopshiriqController extends Controller
     {
         $categories=Category::all();
         $regions=Region::all();
+        $twodays = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+            $query->whereDate('muddat', now()->addDays(2));
+        })
+        ->count();
+        $tomorrow = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+            $query->whereDate('muddat', now()->addDays(1));
+        })
+        ->count();
+        $today = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+            $query->whereDate('muddat', now()->addDays(0));
+        })
+        ->count();
+        $expired = RegionTopshiriq::where('status','=','topshirildi')->whereHas('topshiriq', function ($query) {
+            $query->where('muddat','<',now());
+        })
+        ->count();
+        $approved = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+            $query->where('status','=','approwed');
+        })
+        ->count();
 
        $barchasi = RegionTopshiriq::count();
 
 
-        return view('Boshqaruv.boshqaruv',['categories'=>$categories,'regions'=>$regions,'barchasi'=>$barchasi]);
+        return view('Boshqaruv.boshqaruv',['categories'=>$categories,'regions'=>$regions,'barchasi'=>$barchasi,'twodays'=>$twodays,'tomorrow'=>$tomorrow,'today'=>$today,'expired'=>$expired,'approved'=>$approved]);
     }
     public function detail($regionId,$categoryId)
     {
@@ -196,5 +216,36 @@ class TopshiriqController extends Controller
         ->get();
         return view("Boshqaruv.detail",['topshiriqlar'=>$topshiriqlar]);
 
+    }
+    public function order($query,$ask)
+    {
+        //dd($query,$ask);
+        $categories=Category::all();
+        $regions=Region::all();
+        $twodays = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+            $query->whereDate('muddat', now()->addDays(2));
+        })
+        ->count();
+        $tomorrow = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+            $query->whereDate('muddat', now()->addDays(1));
+        })
+        ->count();
+        $today = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+            $query->whereDate('muddat', now()->addDays(0));
+        })
+        ->count();
+
+       $barchasi = RegionTopshiriq::count();
+       $expired = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+        $query->where('muddat','<',now())->where('status','=','topshirildi');
+    })
+    ->count();
+       $approved = RegionTopshiriq::whereHas('topshiriq', function ($query) {
+        $query->where('status','=','approwed');
+    })
+    ->count();
+
+
+        return view('Boshqaruv.boshqaruv',['categories'=>$categories,'regions'=>$regions,'barchasi'=>$barchasi,'query'=>$query,'ask'=>$ask,'twodays'=>$twodays,'tomorrow'=>$tomorrow,'today'=>$today,'expired'=>$expired,'approved'=>$approved]);
     }
 }

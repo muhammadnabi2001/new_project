@@ -26,4 +26,8 @@ class Topshiriq extends Model
     {
         return $this->hasOne(Javob::class, 'topshiriq_id');
     }
+    public function regionTopshiriqlar()
+    {
+        return $this->hasMany(RegionTopshiriq::class, 'topshiriq_id');
+    }
 }

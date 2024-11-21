@@ -10,14 +10,14 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>Barchasi - {{$barchasi}} ta</h3>
+                        <h3>{{$barchasi}}</h3>
 
-                        <p>Hammasini ko'rish</p>
+                        <p>Barchasi</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="/boshqaruv" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -25,14 +25,14 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>2 kun -  ta</sup></h3>
+                        <h3>{{$twodays}} ta</sup></h3>
 
-                        <p>Hammasini ko'rish</p>
+                        <p>2 kun qolganlari</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="" class="small-box-footer"><i
+                    <a href="{{route('order',['muddat',2])}}" class="small-box-footer"><i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -41,60 +41,57 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>Ertaga -  ta </h3>
+                        <h3>{{$tomorrow}} ta</h3>
 
-                        <p>Hammasini ko'rish</p>
+                        <p>ertaga</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="" class="small-box-footer"><i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('order',['muddat',1])}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
             <div class="col-lg-2 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>2 kun -  ta</sup></h3>
-
-                    <p>Hammasini ko'rish</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="" class="small-box-footer"><i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-            <div class="col-lg-2 col-6">
                 <!-- small box -->
-                <div class="small-box bg-info">
+                <div class="small-box bg-primary">
                     <div class="inner">
-                        <h3>Barchasi -  ta</h3>
+                        <h3>{{$today}} ta</sup></h3>
 
-                        <p>Hammasini ko'rish</p>
+                        <p> bugungi </p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('order',['muddat',0])}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-2 col-6">
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>Bugun -  ta</h3>
+                        <h3>{{$expired}} ta</h3>
 
-                        <p>Hammasini ko'rish</p>
+                        <p>muddati buzilgan</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="{{route('order',['muddat','expired'])}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{$approved}} ta</h3>
+
+                        <p>Hal etilgan</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="" class="small-box-footer"><i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('order',['status','approwed'])}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -120,29 +117,8 @@
             <form action="" method="GET">
                 @csrf
                 <div class="card p-3">
-                    <div class="row">
-                        <!-- Boshlanish sanasi -->
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="start_date">Boshlanish sanasi:</label>
-                                <input type="date" id="start_date" class="form-control" name="start">
-                            </div>
-                        </div>
-                        <!-- Tugash sanasi -->
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="end_date">Tugash sanasi:</label>
-                                <input type="date" id="end_date" class="form-control" name="end">
-                            </div>
-                        </div>
-                        <!-- Filtr tugmasi -->
-                        <div class="col-md-4 d-flex align-items-end">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-info btn-block">
-                                    <i class="fas fa-filter"></i> Filtr
-                                </button>
-                            </div>
-                        </div>
+                    <div>
+                        <h4>Boshqaruv page</h4>
                     </div>
                 </div>
             </form>
@@ -158,57 +134,131 @@
                     <div class="table-responsive">
                         <!-- resources/views/report/index.blade.php -->
 
-                        <table class="table" style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; text-align: center;">
+                        <table class="table"
+                            style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; text-align: center;">
                             <thead>
                                 <tr>
-                                    <th style="padding: 10px; border: 1px solid #ddd; background-color: #f8f9fa;">Hudud</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd; background-color: #f8f9fa;">Hudud
+                                    </th>
                                     <!-- Kategoriyalar uchun gorizontal tartib -->
                                     @foreach ($categories as $category)
-                                        <th style="text-align: center; background-color: #f8f9fa; padding: 10px; border: 1px solid #ddd; 
+                                    <th style="text-align: center; background-color: #f8f9fa; padding: 10px; border: 1px solid #ddd; 
                                             max-width: 120px; word-wrap: break-word; white-space: normal; word-break: break-word; 
                                             overflow: hidden;">
-                                            <span style="display: inline-block; line-height: 1.2; text-align: center;">
-                                                {{ $category->name }}
-                                            </span>
-                                        </th>
+                                        <span style="display: inline-block; line-height: 1.2; text-align: center;">
+                                            {{ $category->name }}
+                                        </span>
+                                    </th>
                                     @endforeach
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($regions as $region)
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ddd;">{{ $region->name }}</td>
-                                        @foreach ($categories as $category)
-                                            <td style="padding: 10px; border: 1px solid #ddd; vertical-align: middle;">
-                                                @php
-                                                    $topshiriqCount = $region->topshiriqlar->where('category_id', $category->id)->count();
-                                                @endphp
-                                                
-                                                @if($topshiriqCount > 0)
-                                                    <span style="display: inline-block; padding: 8px 15px; 
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">{{ $region->name }}</td>
+                                    @foreach ($categories as $category)
+                                    <td style="padding: 10px; border: 1px solid #ddd; vertical-align: middle;">
+                                        @if(isset($query) && isset($ask))
+                                                @if($query=='muddat' && $ask !='expired')
+
+                                                            @php
+                                                            $ask=(int)$ask;
+                                                            $topshiriqCount = $region->topshiriqlar()
+                                                            ->whereDate($query, now()->addDays($ask))
+                                                            ->where('category_id', $category->id)
+                                                            ->count();
+                                                            @endphp
+                                                @elseif($ask =='expired')
+                                                             @php
+                                                                $topshiriqCount = $region->topshiriqlar()
+                                                                ->where($query,'<',date('Y-m-d'))
+                                                                ->where('status','=','topshirildi')
+                                                                ->where('category_id', $category->id)
+                                                                ->count();
+                                                            @endphp
+                                                @elseif($ask =='approwed')
+                                                             @php
+                                                                $topshiriqCount = $region->topshiriqlar()
+                                                                ->where($query,'=',$ask)
+                                                                ->where('category_id', $category->id)
+                                                                ->count();
+                                                            @endphp
+                                                @endif
+
+                                        @else
+                                        @php
+
+                                        $topshiriqCount = $region->topshiriqlar->where('category_id',
+                                        $category->id)->count();
+                                        @endphp
+                                        @endif
+
+                                        @if($topshiriqCount > 0 && isset($ask))
+                                        @if($ask == 'expired')
+                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                            <span style="display: inline-block; padding: 8px 15px; 
+                                                                border-radius: 5px; background-color: #fc0404; 
+                                                                color: white; font-weight: bold; font-size: 14px; 
+                                                                text-align: center; width: 50px; cursor: pointer;">
+                                                {{ $topshiriqCount }}
+                                            </span>
+                                        </a>
+                                        @elseif($ask == 2)
+                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                            <span style="display: inline-block; padding: 8px 15px; 
+                                                                border-radius: 5px; background-color: #06ed1d; 
+                                                                color: white; font-weight: bold; font-size: 14px; 
+                                                                text-align: center; width: 50px; cursor: pointer;">
+                                                {{ $topshiriqCount }}
+                                            </span>
+                                        </a>
+                                        @elseif($ask == 1)
+                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                            <span style="display: inline-block; padding: 8px 15px; 
+                                                                border-radius: 5px; background-color: #e5ed06; 
+                                                                color: white; font-weight: bold; font-size: 14px; 
+                                                                text-align: center; width: 50px; cursor: pointer;">
+                                                {{ $topshiriqCount }}
+                                            </span>
+                                        </a>
+                                        @elseif($ask == 0)
+                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                            <span style="display: inline-block; padding: 8px 15px; 
+                                                                border-radius: 5px; background-color: #0638ed; 
+                                                                color: white; font-weight: bold; font-size: 14px; 
+                                                                text-align: center; width: 50px; cursor: pointer;">
+                                                {{ $topshiriqCount }}
+                                            </span>
+                                        </a>
+                                        @else
+                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                            <span style="display: inline-block; padding: 8px 15px; 
                                                                 border-radius: 5px; background-color: #06ed5b; 
                                                                 color: white; font-weight: bold; font-size: 14px; 
                                                                 text-align: center; width: 50px; cursor: pointer;">
-                                                        <a href="{{route('detail',[$region->id,$category->id])}}">
-                                                            {{ $topshiriqCount }}
-                                                        </a>
-                                                    </span>
-                                                @else
-                                                    <span style="display: inline-block; padding: 8px 15px; 
-                                                                border-radius: 5px; background-color: #6c757d; 
+                                                {{ $topshiriqCount }}
+                                            </span>
+                                        </a>
+                                        
+                                        @endif
+                                        @elseif($topshiriqCount > 0)
+                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                            <span style="display: inline-block; padding: 8px 15px; 
+                                                                border-radius: 5px; background-color: #06d6ed; 
                                                                 color: white; font-weight: bold; font-size: 14px; 
-                                                                text-align: center; width: 50px; cursor: not-allowed;">
-                                                        0
-                                                    </span>
-                                                @endif
-                                            </td>
-                                        @endforeach
-                                    </tr>
+                                                                text-align: center; width: 50px; cursor: pointer;">
+                                                {{ $topshiriqCount }}
+                                            </span>
+                                        </a>
+                                        @endif
+                                    </td>
+                                    @endforeach
+                                </tr>
                                 @endforeach
                             </tbody>
-                            
+
                         </table>
-                        
+
                     </div>
                 </div>
 
