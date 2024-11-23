@@ -19,9 +19,9 @@ class JavobController extends Controller
         }
 
         $all = $region->topshiriqlar()->count();
-        $twodays = $region->topshiriqlar()->whereDate('muddat', now()->addDays(2))->count();
-        $tomorrow = $region->topshiriqlar()->whereDate('muddat', now()->addDays(1))->count();
-        $today = $region->topshiriqlar()->whereDate('muddat', now())->count();
+        $twodays = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(2))->count();
+        $tomorrow = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(1))->count();
+        $today = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now())->count();
         if ($region) {
             $topshiriqlar = $region->topshiriqlar()->paginate(5);
 
@@ -35,10 +35,10 @@ class JavobController extends Controller
         //dd($day);
         $region = Auth::user()->region;
         $all = $region->topshiriqlar()->count();
-        $twodays = $region->topshiriqlar()->whereDate('muddat', now()->addDays(2))->count();
-        $tomorrow = $region->topshiriqlar()->whereDate('muddat', now()->addDays(1))->count();
-        $today = $region->topshiriqlar()->whereDate('muddat', now())->count();
-        $topshiriqlar = $region->topshiriqlar()->whereDate('muddat', now()->addDays($day))->paginate(5);
+        $twodays = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(2))->count();
+        $tomorrow = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(1))->count();
+        $today = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now())->count();
+        $topshiriqlar = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays($day))->paginate(5);
         return view('Ijro.ijro', ['topshiriqlar' => $topshiriqlar, 'all' => $all, 'twodays' => $twodays, 'tomorrow' => $tomorrow, 'today' => $today]);
     }
     public function store(Request $request, Topshiriq $topshiriq)
@@ -68,7 +68,8 @@ class JavobController extends Controller
     public function view(Topshiriq $topshiriq)
     {
         //dd($topshiriq);
-        return view('Ijro.view', ['topshiriq' => $topshiriq]);
+        $regiontopshiriq=RegionTopshiriq::where('topshiriq_id',$topshiriq->id)->first();
+        return view('Ijro.view', ['regiontopshiriq' => $regiontopshiriq]);
     }
     public function bajarish(Request $request, Topshiriq $topshiriq)
     {
@@ -114,9 +115,9 @@ class JavobController extends Controller
         }
 
         $all = $region->topshiriqlar()->count();
-        $twodays = $region->topshiriqlar()->whereDate('muddat', now()->addDays(2))->count();
-        $tomorrow = $region->topshiriqlar()->whereDate('muddat', now()->addDays(1))->count();
-        $today = $region->topshiriqlar()->whereDate('muddat', now())->count();
+        $twodays = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(2))->count();
+        $tomorrow = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(1))->count();
+        $today = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now())->count();
         if ($region) {
             $topshiriqlar = $region->topshiriqlar()
             ->whereBetween('topshiriqs.muddat', [$request->start, $request->end]) // 'topshiriqs.created_at' deb to'liq ko'rsating

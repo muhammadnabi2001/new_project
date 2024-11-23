@@ -29,9 +29,10 @@ require __DIR__.'/auth.php';
     Route::get('users',[UserController::class,'user'])->name('users')->middleware(Check::class.':admin');
     Route::get('usercreate',[UserController::class,'usercreate'])->name('usercreate')->middleware(Check::class.':admin');
     Route::get('useredit{user}',[UserController::class,'useredit'])->name('useredit');
-    Route::post('userupdate{user}',[UserController::class,'userupdate'])->name('userupdate')->middleware(Check::class.':admin');
+    Route::post('userupdate{user}',[UserController::class,'userupdate'])->name('userupdate')->middleware(Check::class.':admin,user');
     Route::post('userstore',[UserController::class,'userstore'])->name('userstore')->middleware(Check::class.':admin');
     Route::get('userdelete{user}',[UserController::class,'userdelete'])->name('userdelete')->middleware(Check::class.':admin');
+    Route::get('yourself',[UserController::class,'yourself'])->name('yourself')->middleware(Check::class.':user');
 
     Route::get('categories',[CategoryController::class,'category'])->name('categories')->middleware(Check::class.':admin');
     Route::get('categorycreate',[CategoryController::class,'categorycreate'])->name('categorycreate')->middleware(Check::class.':admin');
@@ -57,7 +58,7 @@ require __DIR__.'/auth.php';
     Route::get('accept/{topshiriq}/{id}',[TopshiriqController::class,'accept'])->name('accept');
     Route::get('filtr',[TopshiriqController::class,'filtr'])->name('filtr');
     Route::get('boshqaruv',[TopshiriqController::class,'boshqaruv'])->name('boshqaruv');
-    Route::get('detail/{regionId}/{categoryId}',[TopshiriqController::class,'detail'])->name('detail');
+    Route::get('detail/{regionId}/{categoryId}/{day}',[TopshiriqController::class,'detail'])->name('detail');
     Route::get('order/{query}/{ask}',[TopshiriqController::class,'order'])->name('order');
 
     Route::get('vazifa',[JavobController::class,'vazifa'])->name('vazifa')->middleware(Check::class.':user');
@@ -71,4 +72,5 @@ require __DIR__.'/auth.php';
     Route::post('reject{javob}',[JavobController::class,'reject'])->name('reject')->middleware(Check::class.':admin');
 
     Route::get('xisobot',[XisobotController::class,'xisobot'])->name('xisobot')->middleware(Check::class.":admin");
+    Route::get('statistika',[XisobotController::class,'statistika'])->name('statistika')->middleware(Check::class.":admin");
 

@@ -6,7 +6,7 @@
 <div class="content-wrapper">
     <div class="content-header">
         <div class="row">
-            <div class="col-lg-2 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-2 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-2 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-2 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-primary">
                     <div class="inner">
@@ -66,7 +66,7 @@
                     <a href="{{route('order',['muddat',0])}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-2 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
@@ -80,7 +80,7 @@
                     <a href="{{route('order',['muddat','expired'])}}" class="small-box-footer"><i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-2 col-6">
+            <div class="col-lg-4 col-6">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
@@ -163,24 +163,24 @@
 
                                                             @php
                                                             $ask=(int)$ask;
-                                                            $topshiriqCount = $region->topshiriqlar()
-                                                            ->whereDate($query, now()->addDays($ask))
-                                                            ->where('category_id', $category->id)
+                                                            $topshiriqCount = $region->topshiriqlar()->where('status','!=','approwed')
+                                                            ->whereDate('topshiriqs.'.$query, now()->addDays($ask))
+                                                            ->where('topshiriqs.category_id', $category->id)
                                                             ->count();
                                                             @endphp
                                                 @elseif($ask =='expired')
                                                              @php
                                                                 $topshiriqCount = $region->topshiriqlar()
-                                                                ->where($query,'<',date('Y-m-d'))
-                                                                ->where('status','=','topshirildi')
-                                                                ->where('category_id', $category->id)
+                                                                ->where('region_topshiriqs.'.$query,'<',now())
+                                                                ->where('status','!=','approwed')
+                                                                ->where('topshiriqs.category_id', $category->id)
                                                                 ->count();
                                                             @endphp
                                                 @elseif($ask =='approwed')
                                                              @php
                                                                 $topshiriqCount = $region->topshiriqlar()
-                                                                ->where($query,'=',$ask)
-                                                                ->where('category_id', $category->id)
+                                                                ->where('region_topshiriqs.'.$query,'=',$ask)
+                                                                ->where('topshiriqs.category_id', $category->id)
                                                                 ->count();
                                                             @endphp
                                                 @endif
@@ -195,7 +195,7 @@
 
                                         @if($topshiriqCount > 0 && isset($ask))
                                         @if($ask == 'expired')
-                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                        <a href="{{route('detail',[$region->id,$category->id,-1])}}">
                                             <span style="display: inline-block; padding: 8px 15px; 
                                                                 border-radius: 5px; background-color: #fc0404; 
                                                                 color: white; font-weight: bold; font-size: 14px; 
@@ -204,7 +204,7 @@
                                             </span>
                                         </a>
                                         @elseif($ask == 2)
-                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                        <a href="{{route('detail',[$region->id,$category->id,2])}}">
                                             <span style="display: inline-block; padding: 8px 15px; 
                                                                 border-radius: 5px; background-color: #06ed1d; 
                                                                 color: white; font-weight: bold; font-size: 14px; 
@@ -213,7 +213,7 @@
                                             </span>
                                         </a>
                                         @elseif($ask == 1)
-                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                        <a href="{{route('detail',[$region->id,$category->id,1])}}">
                                             <span style="display: inline-block; padding: 8px 15px; 
                                                                 border-radius: 5px; background-color: #e5ed06; 
                                                                 color: white; font-weight: bold; font-size: 14px; 
@@ -222,7 +222,7 @@
                                             </span>
                                         </a>
                                         @elseif($ask == 0)
-                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                        <a href="{{route('detail',[$region->id,$category->id,0])}}">
                                             <span style="display: inline-block; padding: 8px 15px; 
                                                                 border-radius: 5px; background-color: #0638ed; 
                                                                 color: white; font-weight: bold; font-size: 14px; 
@@ -231,7 +231,7 @@
                                             </span>
                                         </a>
                                         @else
-                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                        <a href="{{route('detail',[$region->id,$category->id,3])}}">
                                             <span style="display: inline-block; padding: 8px 15px; 
                                                                 border-radius: 5px; background-color: #06ed5b; 
                                                                 color: white; font-weight: bold; font-size: 14px; 
@@ -242,7 +242,7 @@
                                         
                                         @endif
                                         @elseif($topshiriqCount > 0)
-                                        <a href="{{route('detail',[$region->id,$category->id])}}">
+                                        <a href="{{route('detail',[$region->id,$category->id,5])}}">
                                             <span style="display: inline-block; padding: 8px 15px; 
                                                                 border-radius: 5px; background-color: #06d6ed; 
                                                                 color: white; font-weight: bold; font-size: 14px; 

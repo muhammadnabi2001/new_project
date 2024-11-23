@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('region_id')->constrained('regions')->onDelete('cascade');
             $table->foreignId('topshiriq_id')->constrained('topshiriqs')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->date('muddat');
             $table->string('status')->default('topshirildi');
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -31,13 +32,15 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'role'=>'required|max:255'    
         ]);
         $user->name=$request->name;
         $user->email=$request->email;
-        $user->role=$request->role;
+        if($request->role)
+        {
+            $user->role=$request->role;
+        }
         $user->save();
-        return redirect('users')->with('success',"Ma'lumot muvvafaqiyatli yangilandi");
+        return redirect()->back()->with('success',"Ma'lumot muvvafaqiyatli yangilandi");
     }
     public function userstore(Request $request)
     {
@@ -57,5 +60,10 @@ class UserController extends Controller
         //dd($user);
         $user->delete();
         return redirect()->back()->with('success',"Ma'lumot muvvafaqiyatli o'chirildi");
+    }
+    public function yourself()
+    {
+        $user=Auth::user();
+        return view('User.profile',['user'=>$user]);
     }
 }

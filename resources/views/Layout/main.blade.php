@@ -166,6 +166,14 @@
                             </a>
                         </li>
                     @endif
+                        @if(Auth::user()->role =='user')
+                        <li class="nav-item">
+                            <a href="/yourself" class="nav-link {{ request()->is('profile') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tasks"></i> <!-- Topshiriqlarim Ikonka -->
+                                <p>Profile</p>
+                            </a>
+                        </li>
+                    @endif
                     
                         @if(Auth::user()->role =='admin')
                         <li class="nav-item">
