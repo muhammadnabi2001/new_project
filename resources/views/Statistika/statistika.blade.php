@@ -28,7 +28,7 @@
                 @csrf
                 <div class="card p-3">
                     <div>
-                        <h4>Xisobot page</h4>
+                        <h4>Statistika page</h4>
                     </div>
                 </div>
             </form>
@@ -42,7 +42,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <!-- resources/views/report/index.blade.php -->
 
                         <table class="table table-bordered table-striped table-hover table-sm" style="width: 100%; border-collapse: collapse;">
                             <thead>
@@ -57,7 +56,6 @@
                                     <th rowspan="2" style="writing-mode: vertical-rl; text-align: center; transform: rotate(180deg); vertical-align: middle; white-space: nowrap; padding: 10px;">Jami</th>
                                 </tr>
                                 <tr>
-                                    <!-- Bu qator statuslar uchun va regionlar uchun bo'sh joylarni yaratadi -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,7 +79,6 @@
                                                     @if($status != 'kelib_tushdi' && $status != 'muddati_buzilgan')
                                                         
                                                     @php
-                                                        // Filtrlash va hisoblashni Eloquent yordamida soddalashtiramiz
                                                         $regionToTask = $regiontopshiriqlar->where('category_id', $category->id)
                                                         ->where('region_id', $region->id)
                                                         ->where('status',$status)
@@ -89,7 +86,6 @@
                                                         @endphp
                                                     @elseif($status == 'muddati_buzilgan')
                                                     @php
-                                                    // Filtrlash va hisoblashni Eloquent yordamida soddalashtiramiz
                                                     $regionToTask = $regiontopshiriqlar->where('category_id', $category->id)
                                                     ->where('region_id', $region->id)
                                                     ->where('muddat','<',now())
@@ -98,7 +94,6 @@
                                                     @endphp
                                                     @else
                                                     @php
-                                                        // Filtrlash va hisoblashni Eloquent yordamida soddalashtiramiz
                                                         $regionToTask = $regiontopshiriqlar->where('category_id', $category->id)
                                                         ->where('region_id', $region->id)
                                                         ->count();
@@ -124,21 +119,27 @@
                                             @endforeach
                                             
                                             <td style="border: 1px solid #dee2e6; text-align: center;">
-                                                @if($status != 'kelib_tushdi')
+                                                @if($status != 'kelib_tushdi' && $status != 'muddati_buzilgan')
                                                 @php
-                                                    // Jami hisoblash
                                                     $count = $regiontopshiriqlar->where('category_id', $category->id)
                                                         ->where('status', $status)
                                                         ->count();
                                                 @endphp
-                                                @else
+                                                @elseif($status == 'muddati_buzilgan')
                                                 @php
-                                                // Jami hisoblash
+                                                $count = $regiontopshiriqlar->where('category_id', $category->id)
+                                                    ->where('muddat','<',now())
+                                                    ->where('status','!=','approwed')
+                                                    ->count();
+                                            @endphp
+                                                @else
+
+                                                @php
                                                 $count = $regiontopshiriqlar->where('category_id', $category->id)
                                                     ->count();
                                             @endphp
                                                 @endif
-                                                
+
                                                 <button class="btn 
                                                 @if ($status == 'kelib_tushdi') btn-success
                                                 @elseif ($status == 'approwed') btn-primary

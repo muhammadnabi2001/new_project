@@ -63,13 +63,10 @@
                                     <td style="width: 100px; text-align: center;">{{$regiontopshiriqlar->count()}}</td> <!-- Jami kelib tushgan -->
                                     <td style="width: 100px; text-align: center;">{{$regiontopshiriqlar->where('status','=','approwed')->count()}}</td> <!-- Hal etilgan -->
                                     <td style="width: 100px; text-align: center;">
-                                        {{ $regiontopshiriqlar->where('status', 'topshirildi')
-                                            ->filter(function($regiontopshiriq) {
-                                                return $regiontopshiriq->topshiriq->where('muddat', '<', now());
-                                            })
-                                            ->count() }}
+                                        {{ $regiontopshiriqlar->where('status', '!=','approwed')->where('muddat','<',now())->count();
+                                            }}
                                     </td>
-                                    <td style="width: 100px; text-align: center;">{{$regiontopshiriqlar->where('status','=','bajarildi')->count()}}</td> <!-- Hal etilgan -->
+                                    <td style="width: 100px; text-align: center;">{{$regiontopshiriqlar->where('status','=','ochilgan')->count()}}</td> <!-- Hal etilgan -->
 
                                     
                                 </tr>
@@ -78,7 +75,7 @@
                                     <tr>
                                         <td style="width: 50px; text-align: center;">{{ $loop->iteration + 1 }}</td> <!-- Raqam 1 dan boshlanadi -->
                                         <td style="width: 100px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $category->name }}</td> <!-- Category nomi -->
-                                        <td style="width: 100px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{$category->topshiriqlar->count()}}</td> <!-- Category nomi -->
+                                        <td style="width: 100px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{$regiontopshiriqlar->where('category_id',$category->id)->count()}}</td> <!-- Category nomi -->
                                         <td style="width: 100px; text-align: center;">{{ $category->topshiriqlar->filter(function($topshiriq) use ($category) {
                                             return $topshiriq->regionTopshiriqlar->where('status', 'approwed')->count();
                                         })->count() }} </td>
