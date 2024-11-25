@@ -55,8 +55,7 @@
                                     @endforeach
                                     <th rowspan="2" style="writing-mode: vertical-rl; text-align: center; transform: rotate(180deg); vertical-align: middle; white-space: nowrap; padding: 10px;">Jami</th>
                                 </tr>
-                                <tr>
-                                </tr>
+                                
                             </thead>
                             <tbody>
                                 @foreach ($categories as $category)
@@ -67,7 +66,7 @@
                                             @endif
                                             <td style="text-align: center; border: 1px solid #dee2e6;">
                                                 @if ($status == 'topshirildi') Topshirildi
-                                                @elseif ($status == 'approwed') Approved
+                                                @elseif ($status == 'approwed') Tasdiqlangan
                                                 @elseif ($status == 'bajarildi') Bajarildi
                                                 @elseif ($status == 'muddati_buzilgan') Muddati_buzilgan
                                                 @elseif ($status == 'kelib_tushdi') Kelib tushdi

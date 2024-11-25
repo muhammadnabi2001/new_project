@@ -23,4 +23,15 @@ class XisobotController extends Controller
         $regiontopshiriqlar=RegionTopshiriq::all();
         return view('Statistika.statistika',['regiontopshiriqlar'=>$regiontopshiriqlar,'categories'=>$categories,'regions'=>$regions]);
     }
+    public function xisobotfiltr(Request $request)
+    {
+        //dd($request->all());
+        $request->validate([
+            'start'=>'required',
+            'end'=>'required',
+        ]);
+        $regiontopshiriqlar=RegionTopshiriq::whereBetween('muddat',[$request->start,$request->end])->get();
+        $categories = Category::with('topshiriqlar')->get();
+        return view('Xisobot.xisobot',['categories'=>$categories,'regiontopshiriqlar'=>$regiontopshiriqlar]);
+    }
 }

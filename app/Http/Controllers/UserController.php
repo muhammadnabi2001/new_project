@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,30 +28,22 @@ class UserController extends Controller
         //dd($user);
         return view('User.userupdate',['user'=>$user]);
     }
-    public function userupdate(Request $request, User $user)
+    public function userupdate(UserUpdateRequest $request, User $user)
     {
-        //dd($request->all());
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-        ]);
-        $user->name=$request->name;
-        $user->email=$request->email;
-        if($request->role)
-        {
-            $user->role=$request->role;
+        $data = $request->validated();
+
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+    
+        if ($request->role) {
+            $user->role = $data['role'];
         }
         $user->save();
         return redirect()->back()->with('success',"Ma'lumot muvvafaqiyatli yangilandi");
     }
-    public function userstore(Request $request)
+    public function userstore(UserCreateRequest $request)
     {
-       $data=$request->validate([
-            'name'=>'required|max:255',
-            'email'=>'required|max:255|min:5|email|unique:users,email',
-            'role'=>'required|max:255',
-            'password'=>'required|min:5|max:255'
-        ]);
+       $data=$request->validated();
 
         $data['password']=Hash::make($data['password']);
         User::create($data);

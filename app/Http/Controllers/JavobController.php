@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BajarishRequest;
+use App\Http\Requests\JavobStoreRequest;
 use App\Models\Javob;
 use App\Models\Region;
 use App\Models\RegionTopshiriq;
@@ -41,14 +43,9 @@ class JavobController extends Controller
         $topshiriqlar = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays($day))->paginate(5);
         return view('Ijro.ijro', ['topshiriqlar' => $topshiriqlar, 'all' => $all, 'twodays' => $twodays, 'tomorrow' => $tomorrow, 'today' => $today]);
     }
-    public function store(Request $request, Topshiriq $topshiriq)
+    public function store(JavobStoreRequest $request, Topshiriq $topshiriq)
     {
-        $request->validate([
-            'title' => 'required|string',
-            'file' => 'nullable|file',
-            'status' => 'required|string',
-            'region_id' => 'required|exists:regions,id',
-        ]);
+        $data=$request->validated();
 
         $filePath = null;
         if ($request->hasFile('file')) {
@@ -57,10 +54,10 @@ class JavobController extends Controller
 
         Javob::create([
             'topshiriq_id' => $topshiriq->id,
-            'region_id' => $request->region_id,
-            'title' => $request->title,
+            'region_id' => $data['region_id'],
+            'title' => $data['title'],
             'file' => $filePath,
-            'status' => $request->status,
+            'status' => $data['status'],
         ]);
 
         return redirect()->route('topshiriq.show', $topshiriq->id)->with('success', 'Javob muvaffaqiyatli saqlandi!');
@@ -71,24 +68,21 @@ class JavobController extends Controller
         $regiontopshiriq=RegionTopshiriq::where('topshiriq_id',$topshiriq->id)->first();
         return view('Ijro.view', ['regiontopshiriq' => $regiontopshiriq]);
     }
-    public function bajarish(Request $request, Topshiriq $topshiriq)
+    public function bajarish(BajarishRequest $request, Topshiriq $topshiriq)
     {
         $regionTopshiriq = RegionTopshiriq::where('region_id', Auth::user()->region->id)
             ->where('topshiriq_id', $topshiriq->id)
             ->first();
         $regionTopshiriq->status = "bajarildi";
         $regionTopshiriq->save();
-        $request->validate([
-            'title' => 'required',
-            'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
-        ]);
+       $data= $request->validated();
         $javob = Javob::updateOrCreate(
             [
                 'region_id' => Auth::user()->region->id,
                 'topshiriq_id' => $topshiriq->id,
             ],
             [
-                'title' => $request->title,
+                'title' => $data['title'],
                 'status' => 'kutilmoqda',
             ]
         );

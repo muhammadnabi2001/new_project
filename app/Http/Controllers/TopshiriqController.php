@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TopshiriqStoreRequest;
+use App\Http\Requests\TopshiriqUpdateRequest;
 use App\Models\Category;
 use App\Models\Javob;
 use App\Models\Region;
@@ -34,18 +36,9 @@ class TopshiriqController extends Controller
         $regions = Region::all();
         return view('Topshiriq.topshiriqcreate', ['categories' => $categories, 'regions' => $regions]);
     }
-    public function topshiriqstore(Request $request)
+    public function topshiriqstore(TopshiriqStoreRequest $request)
     {
-        $topshiriqData = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'ijrochi' => 'required|max:255',
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'file' => 'nullable|file|mimes:jpg,png,jpeg,pdf,docx,xls,xlsx|max:2048',
-            'muddat' => 'required|date',
-            'regions' => 'required|array',
-            'regions.*' => 'exists:regions,id',
-        ]);
+        $topshiriqData = $request->validated();
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -74,35 +67,25 @@ class TopshiriqController extends Controller
         $regions = Region::all();
         return view('Topshiriq.topshiriqupdate', ['topshiriq' => $topshiriq, 'categories' => $categories, 'regions' => $regions]);
     }
-    public function topshiriqupdate(Request $request, Topshiriq $topshiriq)
+    public function topshiriqupdate(TopshiriqUpdateRequest $request, Topshiriq $topshiriq)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'ijrochi' => 'required|max:255',
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'file' => 'nullable|file|mimes:jpg,png,pdf,docx,xls,xlsx|max:2048',
-            'muddat' => 'required|date',
-            'regions' => 'required|array',
-            'regions.*' => 'exists:regions,id',
-        ]);
+        $data=$request->validated();
 
-        $topshiriq->category_id = $request->category_id;
-        $topshiriq->ijrochi = $request->ijrochi;
-        $topshiriq->title = $request->title;
-        $topshiriq->description = $request->description;
-        $topshiriq->muddat = $request->muddat;
-
+        $topshiriq->category_id = $data['category_id'];
+        $topshiriq->ijrochi = $data['ijrochi'];
+        $topshiriq->title = $data['title'];
+        $topshiriq->description = $data['description'];
+        $topshiriq->muddat = $data['muddat'];
+    
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $filename = date("Y-m-d") . '_' . time() . '.' . $extension;
-
+    
             $file->move(public_path('files'), $filename);
-
+    
             $topshiriq->file = $filename;
         }
-
 
         $topshiriq->save();
         $topshiriq->regions()->sync($request->regions);

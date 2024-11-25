@@ -73,4 +73,5 @@ require __DIR__.'/auth.php';
 
     Route::get('xisobot',[XisobotController::class,'xisobot'])->name('xisobot')->middleware(Check::class.":admin");
     Route::get('statistika',[XisobotController::class,'statistika'])->name('statistika')->middleware(Check::class.":admin");
+    Route::post('xisobotfiltr',[XisobotController::class,'xisobotfiltr'])->name('xisobotfiltr')->middleware(Check::class.":admin");
 

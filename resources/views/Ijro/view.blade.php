@@ -94,7 +94,7 @@
                                         <span style="font-size: 12px; margin-top: 5px;">Qabul qilish</span>
                                     </a>
                                     @elseif($regiontopshiriq->status == 'bajarildi')
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#bajarishModal{{$topshiriq->id}}"
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#bajarishModal{{$regiontopshiriq->topshiriq->id}}"
                                         style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #e6cc08; border-radius: 4px; color: #2bb50f; background-color: #f8f9fa; text-align: center; pointer-events: none;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-hourglass-top" viewBox="0 0 16 16">

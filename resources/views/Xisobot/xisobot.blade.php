@@ -40,6 +40,35 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <div class="card p-3">
+                    <div class="row">
+                        <form action="{{route('xisobotfiltr')}}" method="POST">
+                            @csrf
+                            <div class="card p-3">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="date" id="start_date" class="form-control" name="start">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="date" id="end_date" class="form-control" name="end">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-end">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info btn-block">
+                                                <i class="fas fa-filter"></i> Filtr
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+            
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="table-responsive">
                         <!-- resources/views/report/index.blade.php -->
@@ -56,40 +85,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Hudud uchun birinchi qator -->
                                 <tr>
-                                    <td style="width: 50px; text-align: center;">1</td> <!-- Hudud raqami -->
+                                    <td style="width: 50px; text-align: center;">1</td>
                                     <td style="width: 100px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Hudud</td>
-                                    <td style="width: 100px; text-align: center;">{{$regiontopshiriqlar->count()}}</td> <!-- Jami kelib tushgan -->
-                                    <td style="width: 100px; text-align: center;">{{$regiontopshiriqlar->where('status','=','approwed')->count()}}</td> <!-- Hal etilgan -->
+                                    <td style="width: 100px; text-align: center;">{{ $regiontopshiriqlar->count() }}</td> 
+                                    <td style="width: 100px; text-align: center;">{{ $regiontopshiriqlar->where('status', 'approwed')->count() }}</td> 
                                     <td style="width: 100px; text-align: center;">
-                                        {{ $regiontopshiriqlar->where('status', '!=','approwed')->where('muddat','<',now())->count();
-                                            }}
+                                        {{ $regiontopshiriqlar->where('status', '!=', 'approwed')->where('muddat', '<', now())->count() }}
                                     </td>
-                                    <td style="width: 100px; text-align: center;">{{$regiontopshiriqlar->where('status','=','ochilgan')->count()}}</td> <!-- Hal etilgan -->
-
-                                    
+                                    <td style="width: 100px; text-align: center;">{{ $regiontopshiriqlar->where('status', 'ochilgan')->count() }}</td> 
                                 </tr>
-                                
                                 @foreach($categories as $category)
                                     <tr>
-                                        <td style="width: 50px; text-align: center;">{{ $loop->iteration + 1 }}</td> <!-- Raqam 1 dan boshlanadi -->
-                                        <td style="width: 100px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $category->name }}</td> <!-- Category nomi -->
-                                        <td style="width: 100px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{$regiontopshiriqlar->where('category_id',$category->id)->count()}}</td> <!-- Category nomi -->
-                                        <td style="width: 100px; text-align: center;">{{ $category->topshiriqlar->filter(function($topshiriq) use ($category) {
-                                            return $topshiriq->regionTopshiriqlar->where('status', 'approwed')->count();
-                                        })->count() }} </td>
-                                        <td style="width: 100px; text-align: center;">{{ $category->topshiriqlar->where('muddat','<',now())->filter(function($topshiriq) use ($category) {
-                                            return $topshiriq->regionTopshiriqlar->where('status', 'topshirildi')->count();
-                                        })->count() }} </td>
-                                        <td style="width: 100px; text-align: center;">{{ $category->topshiriqlar->filter(function($topshiriq) use ($category) {
-                                            return $topshiriq->regionTopshiriqlar->where('status', 'bajarildi')->count();
-                                        })->count() }} </td>
+                                        <td style="width: 50px; text-align: center;">{{ $loop->iteration + 1 }}</td> 
+                                        <td style="width: 100px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $category->name }}</td> 
+                                        <td style="width: 100px; text-align: center;">{{ $regiontopshiriqlar->where('category_id', $category->id)->count() }}</td> 
+                                        <td style="width: 100px; text-align: center;">{{ $regiontopshiriqlar->where('category_id', $category->id)->where('status', 'approwed')->count() }}</td>
+                                        <td style="width: 100px; text-align: center;">
+                                            {{ $regiontopshiriqlar->where('category_id', $category->id)->where('status', '!=', 'approwed')->where('muddat', '<', now())->count() }}
+                                        </td>
+                                        <td style="width: 100px; text-align: center;">{{ $regiontopshiriqlar->where('category_id', $category->id)->where('status', 'ochilgan')->count() }}</td> 
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        
                         
                         
                         

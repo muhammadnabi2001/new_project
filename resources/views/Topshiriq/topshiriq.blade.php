@@ -98,6 +98,15 @@
                     </div>
                 </div>
             </div>
+            <div class="card p-3">
+                <div class="row mb-3">
+                    <div class="col-sm-6 d-flex justify-content-start">
+                        <h1>
+                            Topshiriqlar Ro'yxati
+                        </h1>
+                    </div>
+                </div>
+            </div>
             <form action="{{route('filtr')}}" method="GET">
                 @csrf
                 <div class="card p-3">
@@ -105,14 +114,12 @@
                         <!-- Boshlanish sanasi -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="start_date">Boshlanish sanasi:</label>
                                 <input type="date" id="start_date" class="form-control" name="start">
                             </div>
                         </div>
                         <!-- Tugash sanasi -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="end_date">Tugash sanasi:</label>
                                 <input type="date" id="end_date" class="form-control" name="end">
                             </div>
                         </div>
@@ -140,12 +147,7 @@
                     <div class="table-responsive">
                         <table class="table table-striped" style="border:5px;">
                             <thead>
-                                <tr>
-                                    <th colspan="12"
-                                        style="text-align: center; font-size: 18px; font-weight: bold; padding: 10px; color:#114ad0">
-                                        Topshiriqlar ro'yxati
-                                    </th>
-                                </tr>
+
                                 <tr>
                                     <th>No</th>
                                     <th>Hudud</th>
@@ -280,7 +282,8 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $regiontopshiriqlar->appends(['start' => request('start'), 'end' => request('end')])->links() }}
+                        {{ $regiontopshiriqlar->appends(['start' => request('start'), 'end' => request('end')])->links()
+                        }}
                     </div>
                 </div>
 
