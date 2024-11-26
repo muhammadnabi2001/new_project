@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JavobController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\TopshiriqController;
@@ -11,7 +12,7 @@ use App\Http\Middleware\Check;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Login.login');
 });
 
 Route::get('/dashboard', function () {
@@ -74,4 +75,10 @@ require __DIR__.'/auth.php';
     Route::get('xisobot',[XisobotController::class,'xisobot'])->name('xisobot')->middleware(Check::class.":admin");
     Route::get('statistika',[XisobotController::class,'statistika'])->name('statistika')->middleware(Check::class.":admin");
     Route::post('xisobotfiltr',[XisobotController::class,'xisobotfiltr'])->name('xisobotfiltr')->middleware(Check::class.":admin");
+    
+    Route::post('check',[LoginController::class,'check'])->name('check');
+    Route::get('forgotpassword',[LoginController::class,'forgotpassword'])->name('forgotpassword');
+    Route::post('digit',[LoginController::class,'digit'])->name('digit');
+    Route::post('code',[LoginController::class,'code'])->name('code');
+
 
