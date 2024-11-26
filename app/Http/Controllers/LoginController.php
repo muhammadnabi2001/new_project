@@ -25,18 +25,27 @@ class LoginController extends Controller
     {
         return view('Login.forgotpassword');
     }
-    public function digit()
+    public function digit(Request $request)
     {
-        //dd(123);
-        $user=Auth::user();
-        $code = rand(1000, 9999);
-        VerifyUser::create([
-            'user_id' => Auth::id(),
-            'code' => $code
-        ]);
-        SendMessage::dispatch($user, $code);
-        return view('Login.digit');
+        $email = $request->input('email'); 
+        $user = User::where('email', $email)->first();
+    
+        if ($user) {
+            $code = rand(1000, 9999);
+    
+            VerifyUser::create([
+                'user_id' => $user->id,
+                'code' => $code
+            ]);
+    
+            SendMessage::dispatch($user, $code);
+    
+            return view('Login.digit', ['message' => 'Kod yuborildi!']);
+        } else {
+            return redirect()->back()->withErrors(['email' => 'E-mail topilmadi!']);
+        }
     }
+    
     public function code(Request $request)
     {
           //dd($request->code);
