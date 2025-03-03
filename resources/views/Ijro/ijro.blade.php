@@ -164,8 +164,7 @@
                                                 <path d="M12 5v14M19 12l-7 7-7-7" />
                                             </svg>
                                             <span style="font-size: 12px; margin-top: 5px;">Yuklash</span>
-                                         </a>
-                                         
+                                         </a>                    
                                         @else
                                         <div
                                             style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid red; border-radius: 4px; color: red; cursor: not-allowed;">
