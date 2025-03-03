@@ -157,15 +157,16 @@
                                     <td style="border: 1px solid #ddd; padding: 8px;">
                                         @if($topshiriq->file)
 
-                                        <a href="{{ asset('files/' . $topshiriq->file) }}"
+                                        <a href="{{ asset('files/' . $topshiriq->file) }}" 
                                             style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid #007bff; border-radius: 4px; color: #007bff;"
-                                            target="_blank">
+                                            download="{{ $topshiriq->file }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
-                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                 stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path d="M12 5v14M19 12l-7 7-7-7" />
                                             </svg>
                                             <span style="font-size: 12px; margin-top: 5px;">Yuklash</span>
-                                        </a>
+                                         </a>
+                                         
                                         @else
                                         <div
                                             style="text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 50px; border: 2px solid red; border-radius: 4px; color: red; cursor: not-allowed;">
