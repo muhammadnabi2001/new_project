@@ -21,9 +21,8 @@ class JavobController extends Controller
         }
         $region = Auth::user()->region;
         if (!$region || $region->topshiriqlar()->count() == 0) {
-            return redirect()->back()->with('success', "Sizga hech qanday topshiriq kelib tushmagan");
+            return redirect()->route('yourself')->with('success', "Sizga hech qanday topshiriq kelib tushmagan");
         }
-
         $all = $region->topshiriqlar()->count();
         $twodays = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(2))->count();
         $tomorrow = $region->topshiriqlar()->whereDate('topshiriqs.muddat', now()->addDays(1))->count();
