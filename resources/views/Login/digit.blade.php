@@ -15,18 +15,30 @@
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
 </head>
 <body class="hold-transition login-page">
+  
 <div class="login-box">
   <div class="login-logo">
     <a href="{{asset('index2.html')}}">Confirmation</a>
   </div>
+  @if(session('error'))
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger">
+                    {{ session('error') }} <!-- Error message is shown here -->
+                </div>
+            </div>
+        </div>
+    @endif
+
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="/code" method="post">
+      <form action="{{route('code')}}" method="POST">
         @csrf
         <div class="input-group mb-3">
+          <input type="hidden" value="{{$email}}" name="email">
           <input type="number" class="form-control" placeholder="code" name="code">
           <div class="input-group-append">
             <div class="input-group-text">

@@ -80,7 +80,8 @@ require __DIR__.'/auth.php';
     Route::post('check',[LoginController::class,'check'])->name('check');
     Route::get('forgotpassword',[LoginController::class,'forgotpassword'])->name('forgotpassword');
     Route::post('digit',[LoginController::class,'digit'])->name('digit');
-    Route::post('code',[LoginController::class,'code'])->name('code');
+    Route::get('/verifypage',[LoginController::class,'verifypage'])->name('verifypage');
+    Route::post('/code',[LoginController::class,'code'])->name('code');
     Route::get('/history',[HistoryController::class,'index'])->name('history')->middleware(Check::class.":admin");
 
 

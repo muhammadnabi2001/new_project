@@ -60,9 +60,8 @@
       <p class="mb-1">
       </p>
       <p class="mb-1">
-        <a href="/forgotpassword">Forgot password</a>
+        <a href="{{route('forgotpassword')}}">Forgot password</a>
       </p>
-      
     </div>
     <!-- /.login-card-body -->
   </div>
