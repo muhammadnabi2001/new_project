@@ -24,6 +24,7 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+            'password'=>'nullable|min:5|max:25',
             'role' => 'nullable|string|max:255', 
         ];
     }
@@ -34,6 +35,8 @@ class UserUpdateRequest extends FormRequest
             'email.required' => 'Email maydoni to\'ldirilishi shart.',
             'email.unique' => 'Bu email allaqachon mavjud.',
             'role.string' => 'Rol faqat matnli bo\'lishi kerak.',
+            'password.min'=>'password should be at least 5 characters',
+            'password.max'=>'password maximal 25 characters'
         ];
     }
 }

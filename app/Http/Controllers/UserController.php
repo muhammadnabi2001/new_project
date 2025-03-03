@@ -17,7 +17,7 @@ class UserController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-        return view('User.users',['users'=>$user]);
+        return view('User.users', ['users' => $user]);
     }
     public function usercreate()
     {
@@ -26,7 +26,7 @@ class UserController extends Controller
     public function useredit(User $user)
     {
         //dd($user);
-        return view('User.userupdate',['user'=>$user]);
+        return view('User.userupdate', ['user' => $user]);
     }
     public function userupdate(UserUpdateRequest $request, User $user)
     {
@@ -34,30 +34,39 @@ class UserController extends Controller
 
         $user->name = $data['name'];
         $user->email = $data['email'];
-    
+        if($data['password'])
+        {
+            $user->password=$data['password'];
+        }
+
         if ($request->role) {
             $user->role = $data['role'];
         }
         $user->save();
-        return redirect()->back()->with('success',"Ma'lumot muvvafaqiyatli yangilandi");
+
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return redirect()->route('users')->with('success', "Ma'lumot muvaffaqiyatli yangilandi");
+        } else {
+            return redirect()->route('vazifa');
+        }
     }
     public function userstore(UserCreateRequest $request)
     {
-       $data=$request->validated();
+        $data = $request->validated();
 
-        $data['password']=Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
         User::create($data);
-        return redirect('users')->with('success',"Ma'lumot muvvafaqiyatli qo'shildi");
+        return redirect('users')->with('success', "Ma'lumot muvvafaqiyatli qo'shildi");
     }
-    public function userdelete(Request $request,User $user)
+    public function userdelete(Request $request, User $user)
     {
         //dd($user);
         $user->delete();
-        return redirect()->back()->with('success',"Ma'lumot muvvafaqiyatli o'chirildi");
+        return redirect()->back()->with('success', "Ma'lumot muvvafaqiyatli o'chirildi");
     }
     public function yourself()
     {
-        $user=Auth::user();
-        return view('User.profile',['user'=>$user]);
+        $user = Auth::user();
+        return view('User.profile', ['user' => $user]);
     }
 }

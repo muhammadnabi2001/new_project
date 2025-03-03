@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Topshiriq extends Model
 {
+    use LogTrait;
     protected $fillable = [
         'category_id',
         'ijrochi',

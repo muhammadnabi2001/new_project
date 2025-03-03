@@ -40,11 +40,15 @@
                                 <label for="user-select" class="form-label">Select User</label>
                                 <select name="role" id="user-select" class="form-control">
                                     <option value="" disabled selected>{{$user->role}}</option>
-                                        <option value="admin">admin</option>
+                                        {{-- <option value="admin">admin</option> --}}
                                         <option value="user">user</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success">Update</button>
+                            <div>
+                                <label for="form-label">User password</label>
+                                <input class="form-control" type="password" name="password" placeholder="leave this blank to keep your current password">
+                            </div>
+                            <button type="submit" class="btn btn-success mt-2">Update</button>
                         </form>
                     </div>
                 </div>

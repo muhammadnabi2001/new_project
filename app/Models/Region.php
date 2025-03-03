@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Region extends Model
 {
+    use LogTrait;
     protected $fillable = [
         'user_id',
         'name'

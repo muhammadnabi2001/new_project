@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\LogTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class RegionTopshiriq extends Model
 {
+    use LogTrait;
     protected $table='region_topshiriqs';
     protected $fillable=[
         'region_id',

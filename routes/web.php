@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\JavobController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
@@ -80,5 +81,6 @@ require __DIR__.'/auth.php';
     Route::get('forgotpassword',[LoginController::class,'forgotpassword'])->name('forgotpassword');
     Route::post('digit',[LoginController::class,'digit'])->name('digit');
     Route::post('code',[LoginController::class,'code'])->name('code');
+    Route::get('/history',[HistoryController::class,'index'])->name('history')->middleware(Check::class.":admin");
 
 

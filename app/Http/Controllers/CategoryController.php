@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function category()
     {
-        $categories=Category::orderBy('id','desc')->get();
+        $categories=Category::orderBy('id','desc')->paginate(10);
         return view('Category.category',['categories'=>$categories]);
     }
     public function categorycreate()

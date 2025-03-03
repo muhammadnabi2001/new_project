@@ -15,6 +15,10 @@ class JavobController extends Controller
 {
     public function vazifa()
     {
+        if(!Auth::user())
+        {
+            return redirect()->route('/');
+        }
         $region = Auth::user()->region;
         if (!$region || $region->topshiriqlar()->count() == 0) {
             return redirect()->back()->with('success', "Sizga hech qanday topshiriq kelib tushmagan");
